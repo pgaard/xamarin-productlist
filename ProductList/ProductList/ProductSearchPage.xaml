@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ProductList"
+             x:Class="ProductList.ProductSearchPage"
+             Title="Product Search">
+  <ContentPage.ToolbarItems>
+      <ToolbarItem Text="ACCOUNT" Activated="ToolbarItem_OnActivated" Order="Primary"/>
+      <ToolbarItem Icon="shopping.png" Activated="ToolbarItem_OnActivated" Order="Primary"/>
+  </ContentPage.ToolbarItems>
+
+  <StackLayout>    
+    <SearchBar x:Name="SearchBar" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>
+    <!--<Image x:Name="testImage" Source="shopping.png"></Image>-->
+    <ActivityIndicator IsRunning="{Binding IsSearching}" Color="Black"/>
+    <Label Text="{Binding HitCount, StringFormat='{0} Products'}" ></Label>
+    <ListView 
+        ItemsSource="{Binding Products}"
+        ItemSelected="ListView_OnItemSelected" 
+        ItemAppearing="ListView_ItemAppearing">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ImageCell TextColor="Black"
+            ImageSource="{Binding ProductSmallImageSource}"
+            Text="{Binding shortDescription}"
+            Detail="{Binding pricing.actualPriceDisplay}"></ImageCell>;
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
+
+</ContentPage>
