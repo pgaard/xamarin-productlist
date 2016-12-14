@@ -6,12 +6,14 @@ namespace ProductList.ViewModels
     using System.Threading.Tasks;
 
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows.Input;
 
     using ProductList.Models;
     using ProductList.Services;
 
     using Xamarin.Forms;
+    using Xamarin.Forms.PlatformConfiguration;
 
     public class ProductSearchViewModel : BaseViewModel
     {
@@ -28,7 +30,7 @@ namespace ProductList.ViewModels
         public ICommand DoSearchCommand { get; private set; }
         public ICommand SelectProductCommand { get; private set; }
         public ICommand ItemAppearingCommand { get; private set; }
-
+        
         public ProductSearchViewModel(IProductService productService, IPageService pageService)
         {            
             this.productService = productService;
@@ -38,6 +40,7 @@ namespace ProductList.ViewModels
             this.ItemAppearingCommand = new Command<Product>(async product => await this.ItemAppearing(product));
         }
 
+        private Product selectedProduct;
         private bool isSearching;
         private int hitCount;
 
@@ -45,6 +48,12 @@ namespace ProductList.ViewModels
         {
             get { return this.products;}
             set { this.SetValue(ref this.products, value);}
+        }
+
+        public Product SelectedProduct
+        {
+            get { return this.selectedProduct; }
+            set { this.SetValue(ref this.selectedProduct, value); }
         }
 
         public bool IsSearching
@@ -83,12 +92,6 @@ namespace ProductList.ViewModels
             
             this.Products = new ObservableCollection<Product>(this.productCollection.products);
 
-            /*
-            if (page == 1)
-            {
-                this.ListView.ScrollTo(this.ProductList[0], ScrollToPosition.Start, false);
-            }
-            */
             this.IsSearching = false;
         }
 
@@ -113,5 +116,31 @@ namespace ProductList.ViewModels
                 }
             }
         }
+    }
+
+    public class ScrollBehavior : Behavior<ListView>
+    {
+        protected override void OnAttachedTo(ListView listView)
+        {
+            listView.ItemAppearing += (sender, args) => 
+            {
+                if (args.Item == (listView.ItemsSource as ObservableCollection<Product>).First())
+                {
+                    listView.ScrollTo(args.Item, ScrollToPosition.Start, false);
+                }
+            };
+            
+            base.OnAttachedTo(listView);
+        }
+
+        private void Bindable_ChildAdded(object sender, ElementEventArgs e)
+        {            
+            
+        }
+
+        protected override void OnDetachingFrom(ListView bindable)
+        {
+            base.OnDetachingFrom(bindable);
+        }        
     }
 }

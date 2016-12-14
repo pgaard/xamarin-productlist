@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ProductList"
+             xmlns:viewModels="clr-namespace:ProductList.ViewModels;assembly=ProductList"
              x:Class="ProductList.ProductSearchPage"
              Title="Product Search">
   <ContentPage.ToolbarItems>
@@ -14,10 +15,16 @@
     <!--<Image x:Name="testImage" Source="shopping.png"></Image>-->
     <ActivityIndicator IsRunning="{Binding IsSearching}" Color="Black"/>
     <Label Text="{Binding HitCount, StringFormat='{0} Products'}" ></Label>
-    <ListView 
+    <ListView x:Name="ListView"
         ItemsSource="{Binding Products}"
+        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
         ItemSelected="ListView_OnItemSelected" 
         ItemAppearing="ListView_ItemAppearing">
+      <!--
+      <ListView.Behaviors>
+        <viewModels:ScrollBehavior />
+      </ListView.Behaviors>
+      -->
       <ListView.ItemTemplate>
         <DataTemplate>
           <ImageCell TextColor="Black"

@@ -1,6 +1,11 @@
 ﻿namespace ProductList
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using ProductList.Models;
 
     using Xamarin.Forms;
     using ProductList.Services;
@@ -17,15 +22,22 @@
             //var test =ImageSource.FromFile("shopping.png");
             //this.cartToolBar.Icon = (FileImageSource)ImageSource.FromFile("shopping.png");            
             //this.testImage.Source = test;
-
+            
             //var assembly = typeof(ProductSearchPage).GetTypeInfo().Assembly;
             //foreach (var res in assembly.GetManifestResourceNames())
             //    System.Diagnostics.Debug.WriteLine("found resource: " + res);
         }
 
-        private void Handle_Search(object sender, EventArgs e)
-        {            
-            this.ViewModel.DoSearchCommand.Execute(this.SearchBar.Text);
+        private async void Handle_Search(object sender, EventArgs e)
+        {
+            await Task.Run(() => this.ViewModel.DoSearchCommand.Execute(this.SearchBar.Text));
+
+            // scroll to the top
+            var products = (this.ListView.ItemsSource as ObservableCollection<Product>);
+            if (products != null && products.Any())
+            {
+                this.ListView.ScrollTo(products.First(), ScrollToPosition.Start, false);
+            }
         }
 
         private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)

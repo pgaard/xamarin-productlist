@@ -37,7 +37,7 @@
                         product.ProductLargeImageSource = new UriImageSource { Uri = new Uri(product.largeImagePath), CachingEnabled = true };
                     }
                 }
-                catch (Exception ex)
+                catch 
                 {                    
                 }
             }
