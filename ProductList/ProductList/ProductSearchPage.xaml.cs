@@ -30,7 +30,7 @@
 
         private async void Handle_Search(object sender, EventArgs e)
         {
-            await Task.Run(() => this.ViewModel.DoSearchCommand.Execute(this.SearchBar.Text));
+            await Task.Run(() => this.ViewModel.DoSearchCommand.Execute((sender as SearchBar).Text));
 
             // scroll to the top
             var products = (this.ListView.ItemsSource as ObservableCollection<Product>);
@@ -56,9 +56,14 @@
             set { BindingContext = value; }
         }
 
-        private void ToolbarItem_OnActivated(object sender, EventArgs e)
+        private void ToolbarItem_Cart(object sender, EventArgs e)
         {
             this.Navigation.PushAsync(new CartPage());          
-        }        
+        }
+
+        private void ToolbarItem_Account(object sender, EventArgs e)
+        {
+            this.Navigation.PushAsync(new SignInPage());
+        }
     }
 }

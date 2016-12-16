@@ -6,12 +6,12 @@
              x:Class="ProductList.ProductSearchPage"
              Title="Product Search">
   <ContentPage.ToolbarItems>
-      <ToolbarItem Text="ACCOUNT" Activated="ToolbarItem_OnActivated" Order="Primary"/>
-      <ToolbarItem Icon="shopping.png" Activated="ToolbarItem_OnActivated" Order="Primary"/>
+      <ToolbarItem Text="ACCOUNT" Activated="ToolbarItem_Account" Order="Primary"/>
+      <ToolbarItem Icon="shopping.png" Activated="ToolbarItem_Cart" Order="Primary"/>
   </ContentPage.ToolbarItems>
 
   <StackLayout>    
-    <SearchBar x:Name="SearchBar" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>
+    <SearchBar Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>
     <!--<Image x:Name="testImage" Source="shopping.png"></Image>-->
     <ActivityIndicator IsRunning="{Binding IsSearching}" Color="Black"/>
     <Label Text="{Binding HitCount, StringFormat='{0} Products'}" ></Label>
