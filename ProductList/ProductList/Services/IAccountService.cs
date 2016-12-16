@@ -5,5 +5,7 @@
     public interface IAccountService
     {
         Task<bool> Authenticate(string userName, string password);
+
+        Task<bool> IsAuthenticated();
     }
 }

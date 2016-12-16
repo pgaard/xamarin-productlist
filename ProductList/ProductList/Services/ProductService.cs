@@ -6,23 +6,24 @@
     using System.Threading.Tasks;
 
     using Newtonsoft.Json;
+    using Microsoft.Practices.Unity;
 
     using ProductList.Models;
 
     using Xamarin.Forms;
-
+    
     public class ProductService : IProductService
     {
-        private readonly HttpClient client;
+        private readonly IClientService client;
 
         public ProductService()
         {
-            this.client = new HttpClient();
+            this.client = App.Container.Resolve<IClientService>();
         }
 
         public async Task<ProductCollection> DoProductSearch(string term, int page)
         {
-            var content = await this.client.GetAsync($"http://search.insitesoftqa.com/api/v1/products/?pageSize=32&page={page}&query={term}");
+            var content = await this.client.GetAsync($"api/v1/products/?pageSize=32&page={page}&query={term}");
 
             var productCollection = new ProductCollection();
             if (content.StatusCode != HttpStatusCode.NotFound)

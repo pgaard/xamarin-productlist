@@ -9,11 +9,12 @@ namespace ProductList.ViewModels
     using System.Linq;
     using System.Windows.Input;
 
+    using Microsoft.Practices.Unity;
+
     using ProductList.Models;
     using ProductList.Services;
 
     using Xamarin.Forms;
-    using Xamarin.Forms.PlatformConfiguration;
 
     public class ProductSearchViewModel : BaseViewModel
     {
@@ -31,10 +32,10 @@ namespace ProductList.ViewModels
         public ICommand SelectProductCommand { get; private set; }
         public ICommand ItemAppearingCommand { get; private set; }
         
-        public ProductSearchViewModel(IProductService productService, IPageService pageService)
-        {            
-            this.productService = productService;
-            this.pageService = pageService;
+        public ProductSearchViewModel()
+        {
+            this.productService = App.Container.Resolve<IProductService>();
+            this.pageService = App.Container.Resolve<IPageService>();
             this.DoSearchCommand = new Command<string>(async text => await this.DoSearch(text));
             this.SelectProductCommand = new Command<Product>(async product => await this.SelectProduct(product));
             this.ItemAppearingCommand = new Command<Product>(async product => await this.ItemAppearing(product));

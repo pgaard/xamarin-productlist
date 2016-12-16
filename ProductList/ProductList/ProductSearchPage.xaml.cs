@@ -15,7 +15,7 @@
     {        
         public ProductSearchPage()
         {
-            this.ViewModel = new ProductSearchViewModel(new ProductService(), new PageService());            
+            this.ViewModel = new ProductSearchViewModel();            
             this.InitializeComponent();
 
             //var test = ImageSource.FromResource("ProductList.Images.ShoppingCart-48.png");

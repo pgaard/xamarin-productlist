@@ -3,9 +3,12 @@ namespace ProductList.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Dynamic;
     using System.Threading.Tasks;
     using System.Net;
     using System.Net.Http;
+
+    using Microsoft.Practices.Unity;
 
     using Newtonsoft.Json;
 
@@ -13,84 +16,67 @@ namespace ProductList.Services
 
     public class AccountService : IAccountService
     {
-        private const string Host = "search.insitesoftqa.com";
-        private const string TokenUri = "/identity/connect/token";
-        private const string SessionsUri = "/api/v1/sessions";
-        private const string ClientId = "isc";
-        private const string ClientSecret = "009AC476-B28E-4E33-8BAE-B5F103A142BC";
-
-        private readonly HttpClient client;
+        private const string SessionsPath = "api/v1/sessions";
+        private const string IsAuthenticatedPath = "account/isauthenticated";
+        private readonly IClientService client;          
+        private Session session;
 
         public AccountService()
         {
-            this.client = new HttpClient();
+            this.client = App.Container.Resolve<IClientService>();
         }
 
         public async Task<bool> Authenticate(string userName, string password)
         {
             try
             {
-                var content =
-                    new FormUrlEncodedContent(
-                        new[]
-                        {
-                            new KeyValuePair<string, string>("grant_type", "password"),
-                            new KeyValuePair<string, string>("username", userName),
-                            new KeyValuePair<string, string>("password", password),
-                            new KeyValuePair<string, string>("scope", "iscapi offline_access")
-                        });
-                
-                this.client.DefaultRequestHeaders.Add(
-                    "Authorization",
-                    "Basic " + this.Base64Encode(ClientId + ":" + ClientSecret));
-
-                var tokenResult = await this.client.PostAsync($"http://{Host}/{TokenUri}", content);
-                if (tokenResult.StatusCode != HttpStatusCode.OK)
+                if (!await this.client.GetToken(userName, password))
                 {
                     return false;
                 }
 
-                var resultContent = tokenResult.Content.ReadAsStringAsync().Result;
-                var token = JsonConvert.DeserializeObject<TokenResult>(resultContent);
-
-                content =
+                var content =
                     new FormUrlEncodedContent(
                         new[]
                         {
                             new KeyValuePair<string, string>("username", userName),
                             new KeyValuePair<string, string>("password", password)
                         });
-
-                this.client.DefaultRequestHeaders.Remove("Authorization");
-                this.client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
-                var sessionResult = await this.client.PostAsync($"http://{Host}/{SessionsUri}", content);
-
+              
+                var sessionResult = await this.client.PostAsync(SessionsPath, content);
                 if (sessionResult.StatusCode != HttpStatusCode.Created)
                 {
                     return false;
                 }
 
-                resultContent = sessionResult.Content.ReadAsStringAsync().Result;
-                var session = JsonConvert.DeserializeObject<Session>(resultContent);
-
+                var resultContent = sessionResult.Content.ReadAsStringAsync().Result;
+                this.session = JsonConvert.DeserializeObject<Session>(resultContent);
+                
                 return true;
             }
             catch (Exception ex)
             {
                 return false;
             }
-
         }
 
-        public string Base64Encode(string plainText)
+        public async Task<bool> IsAuthenticated()
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
+            try
+            {
+                var result = await this.client.GetAsync(IsAuthenticatedPath);
+                var resultContent = result.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<IsAuthenticatedResult>(resultContent).isAuthenticatedOnServer;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 
-    public class TokenResult
+    public class IsAuthenticatedResult
     {
-        public string access_token { get; set; }
+        public bool isAuthenticatedOnServer;
     }
 }

@@ -9,5 +9,6 @@
       <Label Text="Password"/>
       <Entry Text="{Binding Password}"></Entry>
       <Button Text="Login" Clicked="Login_Clicked"></Button>
+      <Label Text="{Binding Message}"></Label>
   </StackLayout>
 </ContentPage>

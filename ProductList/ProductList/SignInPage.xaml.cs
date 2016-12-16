@@ -23,7 +23,7 @@ namespace ProductList
 
         public SignInPage()
         {
-            this.ViewModel = new SignInViewModel(new AccountService());
+            this.ViewModel = new SignInViewModel();
             InitializeComponent();
         }
 
