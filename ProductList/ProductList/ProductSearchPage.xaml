@@ -11,10 +11,10 @@
   </ContentPage.ToolbarItems>
 
   <StackLayout Padding="10">    
-    <SearchBar Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>
-    <!--<Image x:Name="testImage" Source="shopping.png"></Image>-->
-    <ActivityIndicator IsRunning="{Binding IsSearching}" Color="Black"/>
-    <Label Text="{Binding HitCount, StringFormat='{0} Products'}" ></Label>
+    <SearchBar x:Name="SearchText" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>    
+    <ActivityIndicator IsRunning="{Binding IsSearching}" IsVisible="{Binding IsSearching}" Color="Black"/>
+    <Label Text="{Binding HitCount, StringFormat='{0} Products'}">      
+    </Label>
     <ListView x:Name="ListView"
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
@@ -35,5 +35,4 @@
       </ListView.ItemTemplate>
     </ListView>
   </StackLayout>
-
 </ContentPage>

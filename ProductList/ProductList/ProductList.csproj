@@ -68,6 +68,7 @@
     <Compile Include="SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValueConverters\NegativeBooleanConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CartPageViewModel.cs" />
     <Compile Include="ViewModels\ProductDetailViewModel.cs" />

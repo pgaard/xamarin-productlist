@@ -10,6 +10,8 @@
     public partial class App : Application
     {
         public static IUnityContainer Container;
+        
+        public string Search { get; set; }
 
         public App()
         {            
@@ -28,20 +30,26 @@
                 .RegisterType<IClientService, ClientService>(new ContainerControlledLifetimeManager())
                 .RegisterType<ICartService, CartService>();
         }
-
+       
         protected override void OnStart()
         {
-            // Handle when your app starts
+            if (Application.Current.Properties.ContainsKey("search"))
+            {
+                this.Search = Application.Current.Properties["search"].ToString();
+            }
         }
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            Application.Current.Properties["search"] = this.Search; 
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+            if (Application.Current.Properties.ContainsKey("search"))
+            {
+                this.Search = Application.Current.Properties["search"].ToString();
+            }
         }
     }
 }

@@ -18,5 +18,9 @@ namespace ProductList.Services
         Task<HttpResponseMessage> GetAsync(string path);
 
         Task<HttpResponseMessage> PostAsync(string path, HttpContent content);
+
+        void StoreState();
+
+        void LoadState();
     }
 }

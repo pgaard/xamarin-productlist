@@ -5,7 +5,18 @@
              x:Class="ProductList.CartPage"
              Title="Cart">
   <StackLayout Padding="20">
-    <Label Text="{Binding LineCount, StringFormat='{0} Items'}"></Label>
+    <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Black"/>
+    <Grid IsVisible="{Binding IsLoading, Converter={StaticResource NegativeBooleanConverter}}">
+      <Label Grid.Row="0" Grid.Column="0" Text="Subtotal"></Label>
+      <Label Grid.Row="0" Grid.Column="1" Text="{Binding Cart.orderSubTotalDisplay}" HorizontalTextAlignment="End"></Label>
+      <Label Grid.Row="1" Grid.Column="0" Text="Tax"></Label>
+      <Label Grid.Row="1" Grid.Column="1" Text="{Binding Cart.totalTaxDisplay}" HorizontalTextAlignment="End"></Label>
+      <Label Grid.Row="2" Grid.Column="0" Text="Shipping and Handling"></Label>
+      <Label Grid.Row="2" Grid.Column="1" Text="{Binding Cart.shippingAndHandlingDisplay}" HorizontalTextAlignment="End"></Label>
+      <Label Grid.Row="3" Grid.Column="0" Text="Total"></Label>
+      <Label Grid.Row="3" Grid.Column="1" Text="{Binding Cart.orderGrandTotalDisplay}" HorizontalTextAlignment="End"></Label>
+    </Grid>
+    <Label Text="{Binding LineCount, StringFormat='{0} Items'}" IsVisible="{Binding IsLoading, Converter={StaticResource NegativeBooleanConverter}}"></Label>
     <ListView x:Name="ListView" ItemsSource="{Binding Cart.cartLines}" HasUnevenRows="true">
         <ListView.ItemTemplate>
           <DataTemplate>
@@ -21,6 +32,6 @@
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
-    </ListView>
+    </ListView>    
   </StackLayout>
 </ContentPage>

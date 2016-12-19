@@ -29,7 +29,10 @@
         {
             var cartLines = new { productId = product.id, qtyOrdered = 1, unitOfMeasure = product.unitOfMeasure };
             var content = new StringContent(JsonConvert.SerializeObject(cartLines), Encoding.UTF8,"application/json");            
-            var result = await this.client.PostAsync("api/v1/carts/current/cartlines", content);
+            var result = await this.client.PostAsync("api/v1/carts/current/cartlines", content);            
+
+            this.client.StoreState();
+
             return result.StatusCode == HttpStatusCode.Created;
         }
 

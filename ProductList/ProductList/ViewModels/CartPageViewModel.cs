@@ -10,6 +10,7 @@
         private ICartService cartService;
         private Cart cart;
         private int lineCount;
+        private bool isLoading;
 
         public CartPageViewModel()
         {
@@ -19,8 +20,10 @@
 
         private async Task LoadCart()
         {
+            this.IsLoading = true;
             this.Cart = await this.cartService.GetCart();
             this.LineCount = this.Cart.cartLines.Count;
+            this.IsLoading = false;
         }
 
         public Cart Cart
@@ -33,6 +36,12 @@
         {
             get { return this.lineCount; }
             set { this.SetValue(ref this.lineCount, value);}
+        }
+
+        public bool IsLoading
+        {
+            get { return this.isLoading; }
+            set { this.SetValue(ref this.isLoading, value); }
         }
     }
 }

@@ -25,11 +25,19 @@
             
             //var assembly = typeof(ProductSearchPage).GetTypeInfo().Assembly;
             //foreach (var res in assembly.GetManifestResourceNames())
-            //    System.Diagnostics.Debug.WriteLine("found resource: " + res);
+            //    System.Diagnostics.Debug.WriteLine("found resource: " + res);            
+            
+        }
+
+        protected override void OnAppearing()
+        {
+            this.SearchText.Text = (Application.Current as App).Search;
+            base.OnAppearing();
         }
 
         private async void Handle_Search(object sender, EventArgs e)
         {
+            (Application.Current as App).Search = (sender as SearchBar).Text;
             await Task.Run(() => this.ViewModel.DoSearchCommand.Execute((sender as SearchBar).Text));
 
             // scroll to the top

@@ -8,6 +8,9 @@ namespace ProductList.Services
     using System.Net.Http;
 
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Bson;
+
+    using Xamarin.Forms;
 
     public class ClientService : IClientService
     {
@@ -30,7 +33,10 @@ namespace ProductList.Services
                 CookieContainer = new CookieContainer()
             };
             this.client = new HttpClient(this.httpClientHandler);
+
+            this.LoadState();
         }
+
 
         public CookieCollection Cookies => this.httpClientHandler.CookieContainer.GetCookies(new Uri($"http://{Host}"));
 
@@ -91,6 +97,27 @@ namespace ProductList.Services
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return System.Convert.ToBase64String(plainTextBytes);
         }
+
+        public void StoreState()
+        {
+            Application.Current.Properties["test"] = "hi";
+            foreach (Cookie cookie in this.Cookies)
+            {
+                Application.Current.Properties["cookies_" + cookie.Name] = cookie.Value;
+            }
+        }
+
+        public void LoadState()
+        {
+            foreach (var prop in Application.Current.Properties)
+            {
+                if (prop.Key.StartsWith("cookies_"))
+                {
+                    var key = prop.Key.Substring("cookie_".Length+1);
+                    this.httpClientHandler.CookieContainer.Add(new Uri($"http://{Host}"),new Cookie(key, prop.Value.ToString()));
+                }
+            }
+        }
     }
 
     public class TokenResult
@@ -98,3 +125,4 @@ namespace ProductList.Services
         public string access_token { get; set; }
     }
 }
+ 
