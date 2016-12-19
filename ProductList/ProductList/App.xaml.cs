@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
-
-namespace ProductList
+﻿namespace ProductList
 {
-    using Microsoft.Practices.ServiceLocation;
     using Microsoft.Practices.Unity;
 
     using ProductList.Services;
+
+    using Xamarin.Forms;
+
 
     public partial class App : Application
     {
@@ -19,18 +14,19 @@ namespace ProductList
         public App()
         {            
             this.SetUpUnity();
-            InitializeComponent();
-
+            this.InitializeComponent();
             this.MainPage = new NavigationPage(new ProductSearchPage());
         }
 
         protected void SetUpUnity()
         {
             Container = new UnityContainer();
+
             Container.RegisterType<IProductService, ProductService>()
                 .RegisterType<IAccountService, AccountService>()
                 .RegisterType<IPageService, PageService>()
-                .RegisterType<IClientService, ClientService>();
+                .RegisterType<IClientService, ClientService>(new ContainerControlledLifetimeManager())
+                .RegisterType<ICartService, CartService>();
         }
 
         protected override void OnStart()

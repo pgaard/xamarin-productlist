@@ -10,7 +10,7 @@
       <ToolbarItem Icon="shopping.png" Activated="ToolbarItem_Cart" Order="Primary"/>
   </ContentPage.ToolbarItems>
 
-  <StackLayout>    
+  <StackLayout Padding="10">    
     <SearchBar Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>
     <!--<Image x:Name="testImage" Source="shopping.png"></Image>-->
     <ActivityIndicator IsRunning="{Binding IsSearching}" Color="Black"/>

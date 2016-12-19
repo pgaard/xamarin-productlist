@@ -41,6 +41,7 @@
     <Compile Include="CartPage.xaml.cs">
       <DependentUpon>CartPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Session.cs" />
     <Compile Include="ProductDetail.xaml.cs">
       <DependentUpon>ProductDetail.xaml</DependentUpon>
@@ -54,8 +55,10 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCollection.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\CartService.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="Services\ICartService.cs" />
     <Compile Include="Services\IClientService.cs" />
     <Compile Include="Services\IPageService.cs" />
     <Compile Include="Services\IProductService.cs" />
@@ -66,6 +69,8 @@
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CartPageViewModel.cs" />
+    <Compile Include="ViewModels\ProductDetailViewModel.cs" />
     <Compile Include="ViewModels\ProductSearchViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
   </ItemGroup>
