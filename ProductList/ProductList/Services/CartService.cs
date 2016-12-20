@@ -31,9 +31,23 @@
             var content = new StringContent(JsonConvert.SerializeObject(cartLines), Encoding.UTF8,"application/json");            
             var result = await this.client.PostAsync("api/v1/carts/current/cartlines", content);            
 
-            this.client.StoreState();
+            this.client.StoreState(); // whats the best place for this?
 
             return result.StatusCode == HttpStatusCode.Created;
+        }
+
+        public async Task<bool> DeleteFromCart(string id)
+        {
+            try
+            {
+                var result = await this.client.DeleteAsync("api/v1/carts/current/cartlines/" + id);
+                return result.StatusCode == HttpStatusCode.NoContent;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public async Task<Cart> GetCart()

@@ -1,9 +1,13 @@
 ﻿namespace ProductList.ViewModels
 {
     using System.Threading.Tasks;
+    using System.Windows.Input;
+
     using ProductList.Services;
     using Microsoft.Practices.Unity;
     using ProductList.Models;
+
+    using Xamarin.Forms;
 
     public class CartPageViewModel : BaseViewModel
     {
@@ -12,10 +16,25 @@
         private int lineCount;
         private bool isLoading;
 
+        public ICommand DeleteCartLineCommand { get; private set; }
+
         public CartPageViewModel()
         {
             this.cartService = App.Container.Resolve<ICartService>();            
             Task.Factory.StartNew(this.LoadCart);
+            this.DeleteCartLineCommand = new Command<string>(async id => await this.DeleteCartLine(id));
+        }
+
+        private void DeleteCartLine(object s)
+        {
+            
+        }
+
+        private async Task DeleteCartLine(string cartLineId)
+        {
+            // TODO confirmation popup
+            await this.cartService.DeleteFromCart(cartLineId);
+            await this.LoadCart();
         }
 
         private async Task LoadCart()

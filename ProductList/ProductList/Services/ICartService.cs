@@ -10,7 +10,8 @@ namespace ProductList.Services
 
     public interface ICartService
     {
-        Task<bool> AddToCart(Product product);
+        Task<bool> AddToCart(Product product);    
+        Task<bool> DeleteFromCart(string id);
         Task<Cart> GetCart();
     }
 }

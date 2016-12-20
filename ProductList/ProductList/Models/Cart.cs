@@ -88,7 +88,7 @@ namespace ProductList.Models
         public ProductSubscription productSubscription { get; set; }
         public object properties { get; set; }
 
-        public UriImageSource ProductSmallImageSource { get; set; }
+        public UriImageSource ProductSmallImageSource { get; set; }            
     }
 
     public class Cart

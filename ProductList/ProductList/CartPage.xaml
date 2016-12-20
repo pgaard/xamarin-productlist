@@ -2,8 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ProductList.ViewModels;assembly=ProductList"
+             xmlns:controls="clr-namespace:ProductList.Controls;assembly=ProductList"
              x:Class="ProductList.CartPage"
-             Title="Cart">
+             Title="Cart"
+             x:Name="Page">
   <StackLayout Padding="20">
     <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Black"/>
     <Grid IsVisible="{Binding IsLoading, Converter={StaticResource NegativeBooleanConverter}}">
@@ -28,10 +30,22 @@
                     <Label Text="{Binding erpNumber}"></Label>
                     <Label Text="{Binding pricing.actualPriceDisplay}"></Label>    
                   </StackLayout>
+                  <!--
+                  <Button Image="delete.png" HorizontalOptions="EndAndExpand" BackgroundColor="White" WidthRequest="20" HeightRequest="20" Clicked="Button_OnClicked"></Button>                  
+                  -->
+                  <!-- doesn't work
+                  <controls:ClickableImage Source="delete.png" HorizontalOptions="EndAndExpand" OnClick="{Binding DeleteCartLineCommand}" />
+                  -->                  
+                  <Image Source="delete.png" HorizontalOptions="EndAndExpand">
+                    <Image.GestureRecognizers>
+                      <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteCartLineCommand, Source={x:Reference Page}}" CommandParameter="{Binding id}"/>
+                    </Image.GestureRecognizers>
+                  </Image>
+                  
                 </StackLayout>
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
-    </ListView>    
+    </ListView>
   </StackLayout>
 </ContentPage>

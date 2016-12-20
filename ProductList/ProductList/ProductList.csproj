@@ -41,6 +41,7 @@
     <Compile Include="CartPage.xaml.cs">
       <DependentUpon>CartPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ClickableImage.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Session.cs" />
     <Compile Include="ProductDetail.xaml.cs">

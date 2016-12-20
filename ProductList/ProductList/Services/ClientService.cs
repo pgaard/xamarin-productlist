@@ -92,6 +92,15 @@ namespace ProductList.Services
             return await this.client.PostAsync($"http://{Host}/{path}", content);
         }
 
+        public async Task<HttpResponseMessage> DeleteAsync(string path)
+        {
+            if (path.StartsWith("/"))
+            {
+                path = path.Substring(1);
+            }
+            return await this.client.DeleteAsync($"http://{Host}/{path}");
+        }
+
         public string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
