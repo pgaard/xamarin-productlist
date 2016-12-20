@@ -23,8 +23,8 @@ namespace ProductList.ViewModels
 
         private ProductCollection productCollection;
         private int currentPage = 1;
-
         private string searchTerm;
+        private string message;
 
         private ObservableCollection<Product> products;
 
@@ -69,11 +69,17 @@ namespace ProductList.ViewModels
             set { this.SetValue(ref this.hitCount, value); }
         }
 
+        public string Message
+        {
+            get{ return this.message; }
+            set { this.SetValue(ref this.message, value); }
+        }
+
         public async Task DoSearch(string text)
         {
             this.currentPage = 1;
             await this.LoadProducts(this.currentPage, text);
-            this.HitCount = this.productCollection.pagination.totalItemCount;
+            this.HitCount = this.productCollection?.pagination?.totalItemCount ?? 0;
         }
 
         private async Task LoadProducts(int page, string text)
@@ -88,10 +94,20 @@ namespace ProductList.ViewModels
             else
             {
                 var newProductCollection = await this.productService.DoProductSearch(this.searchTerm, page);
-                this.productCollection.products.AddRange(newProductCollection.products);
+                if (newProductCollection != null)
+                {
+                    this.productCollection.products.AddRange(newProductCollection.products);
+                }                
             }
-            
-            this.Products = new ObservableCollection<Product>(this.productCollection.products);
+
+            if (this.productCollection?.products != null)
+            {
+                this.Products = new ObservableCollection<Product>(this.productCollection.products);
+            }
+            else
+            {
+                this.Message = "Search error";
+            }
 
             this.IsSearching = false;
         }

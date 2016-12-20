@@ -1,5 +1,7 @@
 ﻿namespace ProductList
 {
+    using System;
+
     using Microsoft.Practices.Unity;
 
     using ProductList.Services;
@@ -14,10 +16,17 @@
         public string Search { get; set; }
 
         public App()
-        {            
-            this.SetUpUnity();
-            this.InitializeComponent();
-            this.MainPage = new NavigationPage(new ProductSearchPage());
+        {
+            try
+            {
+                this.SetUpUnity();
+                this.InitializeComponent();
+                this.MainPage = new NavigationPage(new ProductSearchPage());
+            }
+            catch (Exception ex)
+            {
+                                
+            }
         }
 
         protected void SetUpUnity()
@@ -35,7 +44,7 @@
         {
             if (Application.Current.Properties.ContainsKey("search"))
             {
-                this.Search = Application.Current.Properties["search"].ToString();
+                this.Search = Application.Current.Properties["search"]?.ToString();
             }
         }
 
@@ -48,7 +57,7 @@
         {
             if (Application.Current.Properties.ContainsKey("search"))
             {
-                this.Search = Application.Current.Properties["search"].ToString();
+                this.Search = Application.Current.Properties["search"]?.ToString();
             }
         }
     }

@@ -8,6 +8,7 @@
     <!-- Application resource dictionary -->
     <ResourceDictionary>      
         <valueConverters:NegateBooleanConverter x:Key="NegativeBooleanConverter" />
+        <valueConverters:NotEmptyStringConverter x:Key="NotEmptyStringConverter" />
       </ResourceDictionary>
   </Application.Resources>
 </Application>

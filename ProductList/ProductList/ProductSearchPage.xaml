@@ -13,8 +13,8 @@
   <StackLayout Padding="10">    
     <SearchBar x:Name="SearchText" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>    
     <ActivityIndicator IsRunning="{Binding IsSearching}" IsVisible="{Binding IsSearching}" Color="Black"/>
-    <Label Text="{Binding HitCount, StringFormat='{0} Products'}">      
-    </Label>
+    <Label Text="{Binding HitCount, StringFormat='{0} Products'}" IsVisible="{Binding HitCount}"/>
+    <Label Text="{Binding Message}" IsVisible="{Binding Message, Converter={x:StaticResource NotEmptyStringConverter}}"/>
     <ListView x:Name="ListView"
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"

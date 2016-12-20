@@ -23,26 +23,42 @@
 
         public async Task<ProductCollection> DoProductSearch(string term, int page)
         {
-            var content = await this.client.GetAsync($"api/v1/products/?pageSize=32&page={page}&query={term}");
-
-            var productCollection = new ProductCollection();
-            if (content.StatusCode != HttpStatusCode.NotFound)
+            try
             {
-                var result = await content.Content.ReadAsStringAsync();
-                try
+                var content = await this.client.GetAsync($"api/v1/products/?pageSize=32&page={page}&query={term}");
+
+                var productCollection = new ProductCollection();
+                if (content.StatusCode != HttpStatusCode.NotFound)
                 {
-                    productCollection = JsonConvert.DeserializeObject<ProductCollection>(result);
-                    foreach (var product in productCollection.products)
+                    var result = await content.Content.ReadAsStringAsync();
+                    try
                     {
-                        product.ProductSmallImageSource = new UriImageSource { Uri = new Uri(product.smallImagePath), CachingEnabled = true };
-                        product.ProductLargeImageSource = new UriImageSource { Uri = new Uri(product.largeImagePath), CachingEnabled = true };
+                        productCollection = JsonConvert.DeserializeObject<ProductCollection>(result);
+                        foreach (var product in productCollection.products)
+                        {
+                            product.ProductSmallImageSource = new UriImageSource
+                                                              {
+                                                                  Uri = new Uri(product.smallImagePath),
+                                                                  CachingEnabled = true
+                                                              };
+                            product.ProductLargeImageSource = new UriImageSource
+                                                              {
+                                                                  Uri = new Uri(product.largeImagePath),
+                                                                  CachingEnabled = true
+                                                              };
+                        }
+                    }
+                    catch
+                    {
+                        return null;
                     }
                 }
-                catch 
-                {                    
-                }
+                return productCollection;
             }
-            return productCollection;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
