@@ -136,7 +136,7 @@ namespace ProductList.ViewModels
     }
 
     public class ScrollBehavior : Behavior<ListView>
-    {
+    {        
         protected override void OnAttachedTo(ListView listView)
         {
             listView.ItemAppearing += (sender, args) => 

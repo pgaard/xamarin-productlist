@@ -22,11 +22,23 @@
                 this.SetUpUnity();
                 this.InitializeComponent();
                 this.MainPage = new NavigationPage(new ProductSearchPage());
+                this.MainPage.ToolbarItems.Add(new ToolbarItem("Account",null, this.ToolbarItem_Account));
+                this.MainPage.ToolbarItems.Add(new ToolbarItem("Cart", "shopping.png", this.ToolbarItem_Cart));
             }
             catch (Exception ex)
             {
                                 
             }
+        }
+
+        private void ToolbarItem_Account()
+        {
+            this.MainPage.Navigation.PushAsync(new SignInPage());
+        }
+
+        private void ToolbarItem_Cart()
+        {
+            this.MainPage.Navigation.PushAsync(new CartPage());
         }
 
         protected void SetUpUnity()

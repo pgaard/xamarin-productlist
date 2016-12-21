@@ -13,6 +13,7 @@
     public class ProductDetailViewModel : BaseViewModel
     {
         private readonly ICartService cartService;
+        private readonly IPageService pageService;
 
         private Product product;
         private string message;
@@ -23,13 +24,15 @@
         {
             this.product = product;
             this.cartService = App.Container.Resolve<ICartService>();
+            this.pageService = App.Container.Resolve<IPageService>();
             this.AddToCartCommand = new Command<Product>(async p => await this.AddToCart(p));
         }
 
         private async Task AddToCart(Product product)
         {
             var result = await this.cartService.AddToCart(product);
-            this.Message = result ? "Added to cart" : "Failed to add to cart";
+            await this.pageService.DisplayAlert("", result ? "Added to cart" : "Failed to add to cart", "ok");
+            //this.Message = result ? "Added to cart" : "Failed to add to cart";
         }
 
         public Product Product

@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ProductList.ViewModels;assembly=ProductList"
-             x:Class="ProductList.SignInPage">
+             x:Class="ProductList.SignInPage"
+             Title="Sign In">
   <StackLayout VerticalOptions="StartAndExpand" Padding="30">
       <Label Text="User Name"/>
       <Entry Text="{Binding UserName}"></Entry>

@@ -5,11 +5,6 @@
              xmlns:viewModels="clr-namespace:ProductList.ViewModels;assembly=ProductList"
              x:Class="ProductList.ProductSearchPage"
              Title="Product Search">
-  <ContentPage.ToolbarItems>
-      <ToolbarItem Text="ACCOUNT" Activated="ToolbarItem_Account" Order="Primary"/>
-      <ToolbarItem Icon="shopping.png" Activated="ToolbarItem_Cart" Order="Primary"/>
-  </ContentPage.ToolbarItems>
-
   <StackLayout Padding="10">    
     <SearchBar x:Name="SearchText" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>    
     <ActivityIndicator IsRunning="{Binding IsSearching}" IsVisible="{Binding IsSearching}" Color="Black"/>

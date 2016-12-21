@@ -63,15 +63,5 @@
             get { return BindingContext as ProductSearchViewModel; }
             set { BindingContext = value; }
         }
-
-        private void ToolbarItem_Cart(object sender, EventArgs e)
-        {
-            this.Navigation.PushAsync(new CartPage());          
-        }
-
-        private void ToolbarItem_Account(object sender, EventArgs e)
-        {
-            this.Navigation.PushAsync(new SignInPage());
-        }
     }
 }
