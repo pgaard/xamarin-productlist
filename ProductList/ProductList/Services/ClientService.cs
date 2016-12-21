@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace ProductList.Services
+﻿namespace ProductList.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using System.Net;
     using System.Net.Http;
 
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Bson;
 
     using Xamarin.Forms;
 
@@ -68,9 +66,9 @@ namespace ProductList.Services
             var token = JsonConvert.DeserializeObject<TokenResult>(resultContent);
             this.bearerToken = token.access_token;
 
-            this.client.DefaultRequestHeaders.Remove("Authorization");
-            this.client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+            this.SetBearerTokenHeader();
 
+            this.StoreState();
             return true;
         }
 
@@ -108,12 +106,12 @@ namespace ProductList.Services
         }
 
         public void StoreState()
-        {
-            Application.Current.Properties["test"] = "hi";
+        {            
             foreach (Cookie cookie in this.Cookies)
             {
                 Application.Current.Properties["cookies_" + cookie.Name] = cookie.Value;
             }
+            Application.Current.Properties["bearerToken"] = this.bearerToken;
         }
 
         public void LoadState()
@@ -126,6 +124,21 @@ namespace ProductList.Services
                     this.httpClientHandler.CookieContainer.Add(new Uri($"http://{Host}"),new Cookie(key, prop.Value.ToString()));
                 }
             }
+
+            if (Application.Current.Properties.ContainsKey("bearerToken"))
+            {                
+                this.bearerToken = Application.Current.Properties["bearerToken"].ToString();
+                this.SetBearerTokenHeader();
+            }
+        }
+
+        private void SetBearerTokenHeader()
+        {            
+            if (this.client.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                this.client.DefaultRequestHeaders.Remove("Authorization");
+            }            
+            this.client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this.bearerToken);
         }
     }
 
