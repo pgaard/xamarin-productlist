@@ -6,17 +6,28 @@
              x:Class="ProductList.CartPage"
              Title="Cart"
              x:Name="Page">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+        <OnPlatform x:Key="gridHeight" x:TypeArguments="GridLength" iOS="20" Android="20" WinPhone="20" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
   <StackLayout Padding="20">
-    <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Black"/>
-    <Grid IsVisible="{Binding IsLoading, Converter={StaticResource NegativeBooleanConverter}}">
+    <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Black" />
+    <Grid IsVisible="{Binding IsLoading, Converter={StaticResource NegativeBooleanConverter}}" VerticalOptions="FillAndExpand" Padding="0,0,0,20">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="{StaticResource gridHeight}"/>
+        <RowDefinition Height="{StaticResource gridHeight}"/>
+        <RowDefinition Height="{StaticResource gridHeight}"/>
+        <RowDefinition Height="{StaticResource gridHeight}"/>
+      </Grid.RowDefinitions>      
       <Label Grid.Row="0" Grid.Column="0" Text="Subtotal"></Label>
       <Label Grid.Row="0" Grid.Column="1" Text="{Binding Cart.orderSubTotalDisplay}" HorizontalTextAlignment="End"></Label>
       <Label Grid.Row="1" Grid.Column="0" Text="Tax"></Label>
       <Label Grid.Row="1" Grid.Column="1" Text="{Binding Cart.totalTaxDisplay}" HorizontalTextAlignment="End"></Label>
       <Label Grid.Row="2" Grid.Column="0" Text="Shipping and Handling"></Label>
       <Label Grid.Row="2" Grid.Column="1" Text="{Binding Cart.shippingAndHandlingDisplay}" HorizontalTextAlignment="End"></Label>
-      <Label Grid.Row="3" Grid.Column="0" Text="Total"></Label>
-      <Label Grid.Row="3" Grid.Column="1" Text="{Binding Cart.orderGrandTotalDisplay}" HorizontalTextAlignment="End"></Label>
+      <Label Grid.Row="3" Grid.Column="0" Text="Total" FontAttributes="Bold"></Label>
+      <Label Grid.Row="3" Grid.Column="1" Text="{Binding Cart.orderGrandTotalDisplay}" HorizontalTextAlignment="End" FontAttributes="Bold"></Label>
     </Grid>
     <Label Text="{Binding LineCount, StringFormat='{0} Items'}" IsVisible="{Binding IsLoading, Converter={StaticResource NegativeBooleanConverter}}"></Label>
     <ListView x:Name="ListView" ItemsSource="{Binding Cart.cartLines}" HasUnevenRows="true">
@@ -24,11 +35,11 @@
           <DataTemplate>
             <ViewCell>
                 <StackLayout Orientation="Horizontal" Padding="0,10,0,10">
-                  <Image Source="{Binding ProductSmallImageSource}" Margin="0,0,0,20"></Image>
-                  <StackLayout>
+                  <Image Source="{Binding ProductSmallImageSource}"></Image>
+                  <StackLayout Padding="0,20,0,0">
                     <Label Text="{Binding shortDescription}" FontAttributes="Bold"></Label>
                     <Label Text="{Binding erpNumber}"></Label>
-                    <Label Text="{Binding pricing.actualPriceDisplay}"></Label>    
+                    <Label Text="{Binding pricing.actualPriceDisplay}"></Label>
                   </StackLayout>
                   <!--
                   <Button Image="delete.png" HorizontalOptions="EndAndExpand" BackgroundColor="White" WidthRequest="20" HeightRequest="20" Clicked="Button_OnClicked"></Button>                  
@@ -41,7 +52,6 @@
                       <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteCartLineCommand, Source={x:Reference Page}}" CommandParameter="{Binding id}"/>
                     </Image.GestureRecognizers>
                   </Image>
-                  
                 </StackLayout>
             </ViewCell>
           </DataTemplate>

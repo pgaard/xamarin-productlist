@@ -1,6 +1,7 @@
 ﻿namespace ProductList
 {
     using System;
+    using System.Threading.Tasks;
 
     using Microsoft.Practices.Unity;
 
@@ -15,6 +16,8 @@
         
         public string Search { get; set; }
 
+        private readonly IAccountService accountService;
+
         public App()
         {
             try
@@ -24,11 +27,20 @@
                 this.MainPage = new NavigationPage(new ProductSearchPage());
                 this.MainPage.ToolbarItems.Add(new ToolbarItem("Account",null, this.ToolbarItem_Account));
                 this.MainPage.ToolbarItems.Add(new ToolbarItem("Cart", "shopping.png", this.ToolbarItem_Cart));
+
+                this.accountService = App.Container.Resolve<IAccountService>();
+                Task.Factory.StartNew(this.CheckAuthentication);
             }
             catch (Exception ex)
             {
                                 
             }
+        }
+
+        private async Task CheckAuthentication()
+        {
+            //var result = await this.accountService.IsAuthenticated();
+            var session = await this.accountService.GetSession();
         }
 
         private void ToolbarItem_Account()

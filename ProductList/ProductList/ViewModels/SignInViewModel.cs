@@ -30,7 +30,7 @@
             
             if (result)
             {
-//                result = await this.accountService.IsAuthenticated();
+                ///result = await this.accountService.IsAuthenticated();
             }
 
             this.Message = result ? "Login Successful" : "Login Failed";

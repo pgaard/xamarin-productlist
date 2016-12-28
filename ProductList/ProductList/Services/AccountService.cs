@@ -3,7 +3,6 @@ namespace ProductList.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Dynamic;
     using System.Threading.Tasks;
     using System.Net;
     using System.Net.Http;
@@ -17,6 +16,7 @@ namespace ProductList.Services
     public class AccountService : IAccountService
     {
         private const string SessionsPath = "api/v1/sessions";
+        private const string SessionsCurrentPath = "api/v1/sessions/current";
         private const string IsAuthenticatedPath = "account/isauthenticated";
         private readonly IClientService client;          
         private Session session;
@@ -57,6 +57,21 @@ namespace ProductList.Services
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        public async Task<Session> GetSession()
+        {
+            try
+            {
+                var result = await this.client.GetAsync(SessionsCurrentPath);
+                var resultContent = result.Content.ReadAsStringAsync().Result;
+                this.session = JsonConvert.DeserializeObject<Session>(resultContent);
+                return this.session;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

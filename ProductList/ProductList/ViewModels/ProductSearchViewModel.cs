@@ -124,6 +124,7 @@ namespace ProductList.ViewModels
 
         private async Task ItemAppearing(Product product)
         {
+            /*
             if (!this.IsSearching && this.Products != null && product == this.Products[Math.Max(this.Products.Count - 16, 0)])
             {
                 if (this.currentPage < this.productCollection.pagination.numberOfPages)
@@ -132,6 +133,7 @@ namespace ProductList.ViewModels
                     await this.LoadProducts(this.currentPage, this.searchTerm);
                 }
             }
+            */
         }
     }
 

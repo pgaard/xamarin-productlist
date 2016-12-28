@@ -6,13 +6,19 @@
     using System.Net;
     using System.Net.Http;
 
+    using ModernHttpClient;
+
     using Newtonsoft.Json;
 
     using Xamarin.Forms;
 
     public class ClientService : IClientService
     {
+
+        private const string Protocol = "http://";
+
         private const string Host = "search.insitesoftqa.com";
+        //private const string Host = "10.0.2.2"; 
         private const string TokenUri = "/identity/connect/token";
         private const string ClientId = "isc";
         private const string ClientSecret = "009AC476-B28E-4E33-8BAE-B5F103A142BC";
@@ -24,19 +30,21 @@
        
         public ClientService()
         {
-            this.httpClientHandler = new HttpClientHandler
+            this.httpClientHandler = new NativeMessageHandler
             {
                 AllowAutoRedirect = true,
                 UseCookies = true,
-                CookieContainer = new CookieContainer()
+                CookieContainer = new CookieContainer(),
+                ClientCertificateOptions = ClientCertificateOption.Automatic               
             };
+            
             this.client = new HttpClient(this.httpClientHandler);
 
             this.LoadState();
         }
 
 
-        public CookieCollection Cookies => this.httpClientHandler.CookieContainer.GetCookies(new Uri($"http://{Host}"));
+        public CookieCollection Cookies => this.httpClientHandler.CookieContainer.GetCookies(new Uri($"{Protocol}{Host}"));
 
         public async Task<bool> GetToken(string userName, string password)
         {
@@ -56,7 +64,7 @@
             }
             this.client.DefaultRequestHeaders.Add("Authorization", "Basic " + this.Base64Encode(ClientId + ":" + ClientSecret));
 
-            var tokenResult = await this.client.PostAsync($"http://{Host}/{TokenUri}", content);
+            var tokenResult = await this.client.PostAsync($"{Protocol}{Host}/{TokenUri}", content);
             if (tokenResult.StatusCode != HttpStatusCode.OK)
             {
                 return false;
@@ -78,7 +86,7 @@
             {
                 path = path.Substring(1);
             }
-            return await this.client.GetAsync($"http://{Host}/{path}");
+            return await this.client.GetAsync($"{Protocol}{Host}/{path}");
         }
 
         public async Task<HttpResponseMessage> PostAsync(string path, HttpContent content)
@@ -87,7 +95,7 @@
             {
                 path = path.Substring(1);
             }
-            return await this.client.PostAsync($"http://{Host}/{path}", content);
+            return await this.client.PostAsync($"{Protocol}{Host}/{path}", content);
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(string path)
@@ -96,7 +104,7 @@
             {
                 path = path.Substring(1);
             }
-            return await this.client.DeleteAsync($"http://{Host}/{path}");
+            return await this.client.DeleteAsync($"{Protocol}{Host}/{path}");
         }
 
         public string Base64Encode(string plainText)
@@ -121,24 +129,27 @@
                 if (prop.Key.StartsWith("cookies_"))
                 {
                     var key = prop.Key.Substring("cookie_".Length+1);
-                    this.httpClientHandler.CookieContainer.Add(new Uri($"http://{Host}"),new Cookie(key, prop.Value.ToString()));
+                    this.httpClientHandler.CookieContainer.Add(new Uri($"{Protocol}{Host}"),new Cookie(key, prop.Value.ToString()));
                 }
             }
 
             if (Application.Current.Properties.ContainsKey("bearerToken"))
             {                
-                this.bearerToken = Application.Current.Properties["bearerToken"].ToString();
+                this.bearerToken = Application.Current.Properties["bearerToken"]?.ToString();
                 this.SetBearerTokenHeader();
             }
         }
 
         private void SetBearerTokenHeader()
-        {            
-            if (this.client.DefaultRequestHeaders.Contains("Authorization"))
+        {
+            if (this.bearerToken != null)
             {
-                this.client.DefaultRequestHeaders.Remove("Authorization");
-            }            
-            this.client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this.bearerToken);
+                if (this.client.DefaultRequestHeaders.Contains("Authorization"))
+                {
+                    this.client.DefaultRequestHeaders.Remove("Authorization");
+                }
+                this.client.DefaultRequestHeaders.Add("Authorization", "Bearer " + this.bearerToken);
+            }
         }
     }
 
