@@ -12,6 +12,7 @@ namespace ProductList.Services
     {
         Task<bool> AddToCart(Product product);    
         Task<bool> DeleteFromCart(string id);
+        Task<Cart> PatchCartline(CartLine cartline);
         Task<Cart> GetCart();
     }
 }

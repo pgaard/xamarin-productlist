@@ -21,6 +21,10 @@ namespace ProductList.Services
 
         Task<HttpResponseMessage> DeleteAsync(string path);
 
+        Task<HttpResponseMessage> PatchAsync(string path, HttpContent content);
+
+        Task<HttpResponseMessage> PutAsync(string path, HttpContent content);
+
         void StoreState();
 
         void LoadState();

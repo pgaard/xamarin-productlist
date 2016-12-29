@@ -1,5 +1,6 @@
 ﻿namespace ProductList.ViewModels
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -17,12 +18,14 @@
         private bool isLoading;
 
         public ICommand DeleteCartLineCommand { get; private set; }
+        public ICommand UpdateCartLineCommand { get; private set; }
 
         public CartPageViewModel()
         {
             this.cartService = App.Container.Resolve<ICartService>();            
             Task.Factory.StartNew(this.LoadCart);
             this.DeleteCartLineCommand = new Command<string>(async id => await this.DeleteCartLine(id));
+            this.UpdateCartLineCommand = new Command<string>(async id => await this.UpdateCartLine(id));
         }
 
         private void DeleteCartLine(object s)
@@ -35,6 +38,16 @@
             // TODO confirmation popup
             await this.cartService.DeleteFromCart(cartLineId);
             await this.LoadCart();
+        }
+
+        private async Task UpdateCartLine(string cartLineId)
+        {
+            var cartline = this.Cart.cartLines.FirstOrDefault(c => c.id == cartLineId);
+            if (cartline != null)
+            {
+                await this.cartService.PatchCartline(cartline);
+                await this.LoadCart();
+            }
         }
 
         private async Task LoadCart()

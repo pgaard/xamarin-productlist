@@ -14,7 +14,8 @@
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
         ItemSelected="ListView_OnItemSelected" 
-        ItemAppearing="ListView_ItemAppearing">
+        ItemAppearing="ListView_ItemAppearing"
+              >
       <!--
       <ListView.Behaviors>
         <viewModels:ScrollBehavior />

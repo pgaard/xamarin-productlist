@@ -40,13 +40,30 @@
                     <Label Text="{Binding shortDescription}" FontAttributes="Bold"></Label>
                     <Label Text="{Binding erpNumber}"></Label>
                     <Label Text="{Binding pricing.actualPriceDisplay}"></Label>
+                    <Label Text="{Binding pricing.extendedActualPriceDisplay, StringFormat='Subtotal: {0}'}"></Label>
                   </StackLayout>
-                  <!--
+                  <StackLayout Orientation="Horizontal" HeightRequest="40" VerticalOptions="Center">
+                    <Label HorizontalOptions="Center">Qty:</Label>
+                    <Entry HorizontalOptions="Center" MinimumWidthRequest="40" 
+                           Text="{Binding qtyOrdered, Mode=TwoWay,StringFormat='{0:0}'}" 
+                           Unfocused="QuantityEntry_OnUnfocused" 
+                           TextChanged="QuantityEntry_TextChanged">
+                    </Entry>
+                  </StackLayout>
+                  <!--<Stepper Value="{Binding qtyOrdered, Mode=TwoWay}" ValueChanged="Stepper_OnValueChanged"></Stepper>
+                  <Picker SelectedIndex="1" SelectedIndexChanged="Picker_OnSelectedIndexChanged">
+                    <Picker.Items>
+                      <x:String>1</x:String> 
+                      <x:String>2</x:String>
+                      <x:String>3</x:String>
+                    </Picker.Items>
+                  </Picker>
+                  <Label Text="{Binding qtyOrdered, StringFormat='Qty: {0:0}', Mode=TwoWay}"></Label>                  
                   <Button Image="delete.png" HorizontalOptions="EndAndExpand" BackgroundColor="White" WidthRequest="20" HeightRequest="20" Clicked="Button_OnClicked"></Button>                  
                   -->
                   <!-- doesn't work
                   <controls:ClickableImage Source="delete.png" HorizontalOptions="EndAndExpand" OnClick="{Binding DeleteCartLineCommand}" />
-                  -->                  
+                  -->                                
                   <Image Source="delete.png" HorizontalOptions="EndAndExpand">
                     <Image.GestureRecognizers>
                       <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteCartLineCommand, Source={x:Reference Page}}" CommandParameter="{Binding id}"/>

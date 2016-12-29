@@ -60,15 +60,47 @@
                     return null;
                 }
 
-                var response = await result.Content.ReadAsStringAsync();
-                var cart = JsonConvert.DeserializeObject<Cart>(response);
+                return await GetCartFromResponse(result);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
+        private static async Task<Cart> GetCartFromResponse(HttpResponseMessage result)
+        {
+            var response = await result.Content.ReadAsStringAsync();
+            var cart = JsonConvert.DeserializeObject<Cart>(response);
+
+            if (cart.cartLines != null)
+            {
                 foreach (var cartline in cart.cartLines)
                 {
-                    cartline.ProductSmallImageSource = new UriImageSource { Uri = new Uri(cartline.smallImagePath), CachingEnabled = true };
+                    cartline.ProductSmallImageSource = new UriImageSource
+                                                       {
+                                                           Uri = new Uri(cartline.smallImagePath),
+                                                           CachingEnabled = true
+                                                       };
+                }
+            }
+            return cart;
+        }
+
+        public async Task<Cart> PatchCartline(CartLine cartline)
+        {
+            try
+            {
+                cartline.ProductSmallImageSource = null;
+                var content = new StringContent(JsonConvert.SerializeObject(cartline), Encoding.UTF8, "application/json");
+
+                var result = await this.client.PatchAsync($"api/v1/carts/current/cartlines/{cartline.id}", content);
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    return null;
                 }
 
-                return cart;
+                return await GetCartFromResponse(result);
             }
             catch (Exception ex)
             {

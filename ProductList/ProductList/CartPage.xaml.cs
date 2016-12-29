@@ -4,6 +4,7 @@ namespace ProductList
 {
     using System;
 
+    using ProductList.Models;
     using ProductList.ViewModels;
 
     public partial class CartPage : ContentPage
@@ -22,6 +23,17 @@ namespace ProductList
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
+        }
+
+        private void QuantityEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
+
+        private void QuantityEntry_OnUnfocused(object sender, FocusEventArgs e)
+        {
+            var id = ((sender as BindableObject).BindingContext as CartLine).id;
+            this.ViewModel.UpdateCartLineCommand.Execute(id);
         }
     }
 }

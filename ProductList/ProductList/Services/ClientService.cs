@@ -43,7 +43,6 @@
             this.LoadState();
         }
 
-
         public CookieCollection Cookies => this.httpClientHandler.CookieContainer.GetCookies(new Uri($"{Protocol}{Host}"));
 
         public async Task<bool> GetToken(string userName, string password)
@@ -80,31 +79,38 @@
             return true;
         }
 
-        public async Task<HttpResponseMessage> GetAsync(string path)
+        private string MakeUrl(string path)
         {
             if (path.StartsWith("/"))
             {
                 path = path.Substring(1);
             }
-            return await this.client.GetAsync($"{Protocol}{Host}/{path}");
+            return $"{Protocol}{Host}/{path}";
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(string path)
+        {            
+            return await this.client.GetAsync(this.MakeUrl(path));
         }
 
         public async Task<HttpResponseMessage> PostAsync(string path, HttpContent content)
         {
-            if (path.StartsWith("/"))
-            {
-                path = path.Substring(1);
-            }
-            return await this.client.PostAsync($"{Protocol}{Host}/{path}", content);
+            return await this.client.PostAsync(this.MakeUrl(path), content);
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(string path)
         {
-            if (path.StartsWith("/"))
-            {
-                path = path.Substring(1);
-            }
-            return await this.client.DeleteAsync($"{Protocol}{Host}/{path}");
+            return await this.client.DeleteAsync(this.MakeUrl(path));
+        }
+
+        public async Task<HttpResponseMessage> PatchAsync(string path, HttpContent content)
+        {
+            return await this.client.PatchAsync(new Uri(this.MakeUrl(path)), content);
+        }
+
+        public async Task<HttpResponseMessage> PutAsync(string path, HttpContent content)
+        {
+            return await this.client.PutAsync(new Uri(this.MakeUrl(path)), content);
         }
 
         public string Base64Encode(string plainText)
@@ -156,6 +162,30 @@
     public class TokenResult
     {
         public string access_token { get; set; }
+    }
+
+    // http://stackoverflow.com/questions/26218764/patch-async-requests-with-windows-web-http-httpclient-class
+    public static class HttpClientExtensions
+    {
+        public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, HttpContent iContent)
+        {
+            var method = new HttpMethod("PATCH");
+            var request = new HttpRequestMessage(method, requestUri)
+            {
+                Content = iContent
+            };
+
+            var response = new HttpResponseMessage();
+            try
+            {
+                response = await client.SendAsync(request);
+            }
+            catch (TaskCanceledException e)
+            {     
+            }
+
+            return response;
+        }
     }
 }
  

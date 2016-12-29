@@ -40,7 +40,7 @@
         private async Task CheckAuthentication()
         {
             //var result = await this.accountService.IsAuthenticated();
-            var session = await this.accountService.GetSession();
+            //var session = await this.accountService.GetSession();
         }
 
         private void ToolbarItem_Account()

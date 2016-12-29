@@ -6,6 +6,7 @@ namespace ProductList.ViewModels
     using System.Threading.Tasks;
 
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Windows.Input;
 
@@ -122,10 +123,10 @@ namespace ProductList.ViewModels
             await this.pageService.PushAsync(new ProductDetail(product));
         }
 
+        // this doesn't work right in uwp - keeps retrigging and loading. uwp returns all items as visible.
         private async Task ItemAppearing(Product product)
         {
-            /*
-            if (!this.IsSearching && this.Products != null && product == this.Products[Math.Max(this.Products.Count - 16, 0)])
+            if (!this.IsSearching && this.Products != null && product == this.Products[Math.Max(this.Products.Count - 1, 0)])
             {
                 if (this.currentPage < this.productCollection.pagination.numberOfPages)
                 {
@@ -133,7 +134,6 @@ namespace ProductList.ViewModels
                     await this.LoadProducts(this.currentPage, this.searchTerm);
                 }
             }
-            */
         }
     }
 
@@ -160,6 +160,6 @@ namespace ProductList.ViewModels
         protected override void OnDetachingFrom(ListView bindable)
         {
             base.OnDetachingFrom(bindable);
-        }        
+        }   
     }
 }
