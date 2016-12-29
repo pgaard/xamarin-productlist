@@ -18,18 +18,30 @@
 
         private readonly IAccountService accountService;
 
+        private bool TabbedNav = true;
+
         public App()
         {
             try
             {
                 this.SetUpUnity();
                 this.InitializeComponent();
-                this.MainPage = new NavigationPage(new ProductSearchPage());
-                this.MainPage.ToolbarItems.Add(new ToolbarItem("Account",null, this.ToolbarItem_Account));
-                this.MainPage.ToolbarItems.Add(new ToolbarItem("Cart", "shopping.png", this.ToolbarItem_Cart));
+
+                if (this.TabbedNav)
+                {
+                    var navigationPage = new NavigationPage(new TabbedHomePage());                    
+                    this.MainPage = navigationPage;
+
+                }
+                else
+                {
+                    this.MainPage = new NavigationPage(new ProductSearchPage());
+                    this.MainPage.ToolbarItems.Add(new ToolbarItem("Account", null, this.ToolbarItem_Account));
+                    this.MainPage.ToolbarItems.Add(new ToolbarItem("Cart", "shopping.png", this.ToolbarItem_Cart));
+                }
 
                 this.accountService = App.Container.Resolve<IAccountService>();
-                Task.Factory.StartNew(this.CheckAuthentication);
+                //Task.Factory.StartNew(this.CheckAuthentication);
             }
             catch (Exception ex)
             {

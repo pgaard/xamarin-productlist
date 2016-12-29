@@ -69,6 +69,9 @@
     <Compile Include="SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabbedHomePage.xaml.cs">
+      <DependentUpon>TabbedHomePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValueConverters\NegativeBooleanConverter.cs" />
     <Compile Include="ValueConverters\NotEmptyStringConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
@@ -155,6 +158,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SignInPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TabbedHomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
