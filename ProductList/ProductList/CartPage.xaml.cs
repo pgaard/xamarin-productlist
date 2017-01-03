@@ -35,5 +35,10 @@ namespace ProductList
             var id = ((sender as BindableObject).BindingContext as CartLine).id;
             this.ViewModel.UpdateCartLineCommand.Execute(id);
         }
+
+        private void CheckOut_Clicked(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

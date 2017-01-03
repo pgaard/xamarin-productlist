@@ -29,6 +29,7 @@
       <Label Grid.Row="3" Grid.Column="0" Text="Total" FontAttributes="Bold"></Label>
       <Label Grid.Row="3" Grid.Column="1" Text="{Binding Cart.orderGrandTotalDisplay}" HorizontalTextAlignment="End" FontAttributes="Bold"></Label>
     </Grid>
+    <Button Text="Check Out" Clicked="CheckOut_Clicked"></Button>
     <Label Text="{Binding LineCount, StringFormat='{0} Items'}" IsVisible="{Binding IsLoading, Converter={StaticResource NegativeBooleanConverter}}"></Label>
     <ListView x:Name="ListView" ItemsSource="{Binding Cart.cartLines}" HasUnevenRows="true">
         <ListView.ItemTemplate>
