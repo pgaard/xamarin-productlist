@@ -5,48 +5,61 @@
 
     using Microsoft.Practices.Unity;
 
+    using Prism.Unity;
+
     using ProductList.Services;
+    using ProductList.ViewModels;
 
     using Xamarin.Forms;
 
 
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        public static IUnityContainer Container;
-        
         public string Search { get; set; }
 
         private readonly IAccountService accountService;
 
         private bool TabbedNav = true;
 
-        public App()
+        public App(IPlatformInitializer initializer = null)
+            : base(initializer)
         {
-            try
+        }
+
+        protected override void OnInitialized()
+        {
+            this.InitializeComponent();           
+            
+            if (this.TabbedNav)
             {
-                this.SetUpUnity();
-                this.InitializeComponent();
+                this.NavigationService.NavigateAsync("TabbedHomePage");
+                //var navigationPage = new NavigationPage(new TabbedHomePage());
+                //this.MainPage = navigationPage;
 
-                if (this.TabbedNav)
-                {
-                    var navigationPage = new NavigationPage(new TabbedHomePage());                    
-                    this.MainPage = navigationPage;
-
-                }
-                else
-                {
-                    this.MainPage = new NavigationPage(new ProductSearchPage());
-                    this.MainPage.ToolbarItems.Add(new ToolbarItem("Account", null, this.ToolbarItem_Account));
-                    this.MainPage.ToolbarItems.Add(new ToolbarItem("Cart", "shopping.png", this.ToolbarItem_Cart));
-                }
-
-                this.accountService = App.Container.Resolve<IAccountService>();
-                //Task.Factory.StartNew(this.CheckAuthentication);
             }
-            catch (Exception ex)
+            else
             {
-                                
+                this.NavigationService.NavigateAsync("NavigationPage/ProductSearch");
+                //NavigationPage.SetHasNavigationBar(this, true);
+                //this.MainPage.ToolbarItems.Add(new ToolbarItem("Account", null, this.ToolbarItem_Account));
+                //this.MainPage.ToolbarItems.Add(new ToolbarItem("Cart", "shopping.png", this.ToolbarItem_Cart));
             }
+        }
+
+        protected override void RegisterTypes()
+        {
+            this.Container
+                .RegisterTypeForNavigation<ProductSearch, ProductSearchViewModel>()
+                .RegisterTypeForNavigation<SignInPage, SignInViewModel>()
+                .RegisterTypeForNavigation<CartPage, CartPageViewModel>()
+                .RegisterTypeForNavigation<ProductDetail, ProductDetailViewModel>()
+                .RegisterTypeForNavigation<TabbedHomePage>()
+
+                .RegisterType<IProductService, ProductService>()
+                .RegisterType<IAccountService, AccountService>()
+                .RegisterType<IPageService, PageService>()
+                .RegisterType<IClientService, ClientService>(new ContainerControlledLifetimeManager())
+                .RegisterType<ICartService, CartService>();
         }
 
         private async Task CheckAuthentication()
@@ -57,25 +70,14 @@
 
         private void ToolbarItem_Account()
         {
-            this.MainPage.Navigation.PushAsync(new SignInPage());
+            this.NavigationService.NavigateAsync("SignInPage");
         }
 
         private void ToolbarItem_Cart()
         {
-            this.MainPage.Navigation.PushAsync(new CartPage());
+            this.NavigationService.NavigateAsync("CartPage");
         }
 
-        protected void SetUpUnity()
-        {
-            Container = new UnityContainer();
-
-            Container.RegisterType<IProductService, ProductService>()
-                .RegisterType<IAccountService, AccountService>()
-                .RegisterType<IPageService, PageService>()
-                .RegisterType<IClientService, ClientService>(new ContainerControlledLifetimeManager())
-                .RegisterType<ICartService, CartService>();
-        }
-       
         protected override void OnStart()
         {
             if (Application.Current.Properties.ContainsKey("search"))
@@ -86,7 +88,7 @@
 
         protected override void OnSleep()
         {
-            Application.Current.Properties["search"] = this.Search; 
+            Application.Current.Properties["search"] = this.Search;
         }
 
         protected override void OnResume()

@@ -12,7 +12,11 @@ namespace ProductList
         public CartPage()
         {                        
             InitializeComponent();
-            this.ViewModel = new CartPageViewModel();
+        }
+
+        protected override async void OnAppearing()
+        {
+            await this.ViewModel.LoadCart();
         }
 
         public CartPageViewModel ViewModel
@@ -39,6 +43,6 @@ namespace ProductList
         private void CheckOut_Clicked(object sender, EventArgs e)
         {
             
-        }
+        }        
     }
 }

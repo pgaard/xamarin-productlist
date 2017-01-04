@@ -1,27 +1,26 @@
 ﻿namespace ProductList.ViewModels
 {
     using System.Threading.Tasks;
-    using System.Windows.Input;
 
-    using Microsoft.Practices.Unity;
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using Prism.Navigation;
 
-    using ProductList.Services;
+    using ProductList.Services;    
 
-    using Xamarin.Forms;
-
-    public class SignInViewModel : BaseViewModel
+    public class SignInViewModel : BindableBase, INavigationAware
     {
         private readonly IAccountService accountService;
         private string userName;
         private string password;
         private string message;
 
-        public ICommand LoginCommand { get; private set; }
+        public DelegateCommand LoginCommand { get; private set; }
 
-        public SignInViewModel()
+        public SignInViewModel(IAccountService accountService)
         {
-            this.accountService = App.Container.Resolve<IAccountService>();
-            this.LoginCommand = new Command(async () => await this.DoLogin());            
+            this.accountService = accountService;
+            this.LoginCommand = new DelegateCommand(async () => await this.DoLogin());            
         }
 
         private async Task<bool> DoLogin()
@@ -41,19 +40,27 @@
         public string UserName
         {
             get { return this.userName; }
-            set { this.SetValue(ref this.userName, value); }
+            set { this.SetProperty(ref this.userName, value); }
         }
 
         public string Password
         {
             get { return this.password; }
-            set { this.SetValue(ref this.password, value); }
+            set { this.SetProperty(ref this.password, value); }
         }
 
         public string Message
         {
             get { return this.message; }
-            set { this.SetValue(ref this.message, value); }
+            set { this.SetProperty(ref this.message, value); }
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
         }
     }
 }

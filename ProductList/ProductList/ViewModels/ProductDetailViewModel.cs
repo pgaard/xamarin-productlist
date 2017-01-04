@@ -3,36 +3,38 @@
     using System.Threading.Tasks;
     using System.Windows.Input;
 
-    using Microsoft.Practices.Unity;
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using Prism.Navigation;
+    using Prism.Services;
 
     using ProductList.Models;
-    using ProductList.Services;
+    using ProductList.Services;    
 
-    using Xamarin.Forms;
-
-    public class ProductDetailViewModel : BaseViewModel
+    public class ProductDetailViewModel : BindableBase, INavigationAware
     {
         private readonly ICartService cartService;
-        private readonly IPageService pageService;
 
         private Product product;
         private string message;
 
-        public ICommand AddToCartCommand { get; private set; }
+        private IPageDialogService pageDialogService;
 
-        public ProductDetailViewModel(Product product)
+        public DelegateCommand<Product> AddToCartCommand { get; private set; }
+
+        public ProductDetailViewModel(ICartService cartService, IPageDialogService pageDialogService)
         {
-            this.product = product;
-            this.cartService = App.Container.Resolve<ICartService>();
-            this.pageService = App.Container.Resolve<IPageService>();
-            this.AddToCartCommand = new Command<Product>(async p => await this.AddToCart(p));
+            this.cartService = cartService;
+            this.pageDialogService = pageDialogService;
+            this.AddToCartCommand = new DelegateCommand<Product>(async p => await this.AddToCart(p));
         }
 
         private async Task AddToCart(Product product)
         {
             var result = await this.cartService.AddToCart(product);
-            await this.pageService.DisplayAlert("", result ? "Added to cart" : "Failed to add to cart", "ok");
-            //this.Message = result ? "Added to cart" : "Failed to add to cart";
+
+            await this.pageDialogService.DisplayAlertAsync("", result ? "Added to cart" : "Failed to add to cart", "ok");
+            this.Message = result ? "Added to cart" : "Failed to add to cart";
         }
 
         public Product Product
@@ -43,7 +45,7 @@
             }
             set
             {
-                this.SetValue(ref this.product, value);
+                this.SetProperty(ref this.product, value);
             }
         }
 
@@ -55,8 +57,17 @@
             }
             set
             {
-                this.SetValue(ref this.message, value);
+                this.SetProperty(ref this.message, value);
             }
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {            
+            this.Product = parameters["product"] as Product;
         }
     }
 }

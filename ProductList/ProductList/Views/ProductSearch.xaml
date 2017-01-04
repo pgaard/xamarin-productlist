@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ProductList"
-             xmlns:viewModels="clr-namespace:ProductList.ViewModels;assembly=ProductList"
-             x:Class="ProductList.ProductSearchPage"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProductList.ProductSearch"
              Title="Search">
   <StackLayout Padding="10">    
     <SearchBar x:Name="SearchText" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>    
@@ -15,6 +16,7 @@
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
         ItemSelected="ListView_OnItemSelected" 
         ItemAppearing="ListView_ItemAppearing"
+              
               >
       <!--
       <ListView.Behaviors>

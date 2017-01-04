@@ -11,13 +11,11 @@
     using ProductList.Services;
     using ProductList.ViewModels;
 
-    public partial class ProductSearchPage : ContentPage
+    public partial class ProductSearch : ContentPage
     {        
-        public ProductSearchPage()
+        public ProductSearch()
         {
-            this.ViewModel = new ProductSearchViewModel();            
-            this.InitializeComponent();
-
+            this.InitializeComponent();            
             //var test = ImageSource.FromResource("ProductList.Images.ShoppingCart-48.png");
             //var test =ImageSource.FromFile("shopping.png");
             //this.cartToolBar.Icon = (FileImageSource)ImageSource.FromFile("shopping.png");            
@@ -37,7 +35,7 @@
 
         private async void Handle_Search(object sender, EventArgs e)
         {
-            (Application.Current as App).Search = (sender as SearchBar).Text;
+            (Application.Current as App).Search = (sender as SearchBar).Text;                        
             await Task.Run(() => this.ViewModel.DoSearchCommand.Execute((sender as SearchBar).Text));
 
             // scroll to the top
@@ -50,18 +48,14 @@
 
         private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            this.ViewModel.SelectProductCommand.Execute(e.SelectedItem);
+            this.ViewModel.SelectProductCommand.Execute(e.SelectedItem as Product);
         }
 
         private void ListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
-            this.ViewModel.ItemAppearingCommand.Execute(e.Item);
+            this.ViewModel.ItemAppearingCommand.Execute(e.Item as Product);
         }
 
-        public ProductSearchViewModel ViewModel
-        {
-            get { return BindingContext as ProductSearchViewModel; }
-            set { BindingContext = value; }
-        }
+        public ProductSearchViewModel ViewModel => this.BindingContext as ProductSearchViewModel;
     }
 }

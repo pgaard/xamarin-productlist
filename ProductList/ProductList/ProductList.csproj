@@ -38,17 +38,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CartPage.xaml.cs">
+    <Compile Include="Views\CartPage.xaml.cs">
       <DependentUpon>CartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ClickableImage.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Session.cs" />
-    <Compile Include="ProductDetail.xaml.cs">
+    <Compile Include="Views\ProductDetail.xaml.cs">
       <DependentUpon>ProductDetail.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProductSearchPage.xaml.cs">
-      <DependentUpon>ProductSearchPage.xaml</DependentUpon>
+    <Compile Include="Views\ProductSearch.xaml.cs">
+      <DependentUpon>ProductSearch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Availability.cs" />
     <Compile Include="Models\Pagination.cs" />
@@ -66,22 +66,21 @@
     <Compile Include="Services\PageService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignInPage.xaml.cs">
+    <Compile Include="Views\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TabbedHomePage.xaml.cs">
+    <Compile Include="Views\TabbedHomePage.xaml.cs">
       <DependentUpon>TabbedHomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\NegativeBooleanConverter.cs" />
     <Compile Include="ValueConverters\NotEmptyStringConverter.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CartPageViewModel.cs" />
     <Compile Include="ViewModels\ProductDetailViewModel.cs" />
     <Compile Include="ViewModels\ProductSearchViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ProductSearchPage.xaml">
+    <EmbeddedResource Include="Views\ProductSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -113,6 +112,18 @@
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Prism, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Prism.Core.6.2.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism.Forms, Version=6.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Prism.Forms.6.2.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism.Unity.Forms, Version=6.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Prism.Unity.Forms.6.2.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.Unity.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
       <Private>True</Private>
@@ -139,7 +150,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ProductDetail.xaml">
+    <EmbeddedResource Include="Views\ProductDetail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -151,19 +162,19 @@
     <EmbeddedResource Include="Images\ShoppingCart-48.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CartPage.xaml">
+    <EmbeddedResource Include="Views\CartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SignInPage.xaml">
+    <EmbeddedResource Include="Views\SignInPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TabbedHomePage.xaml">
+    <EmbeddedResource Include="Views\TabbedHomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

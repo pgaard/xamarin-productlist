@@ -16,9 +16,9 @@
     {
         private readonly IClientService client;
 
-        public ProductService()
+        public ProductService(IClientService clientService)
         {
-            this.client = App.Container.Resolve<IClientService>();
+            this.client = clientService;
         }
 
         public async Task<ProductCollection> DoProductSearch(string term, int page)

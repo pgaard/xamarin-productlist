@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using Prism.Unity;
+using Microsoft.Practices.Unity;
+
 namespace ProductList.UWP
 {
     public sealed partial class MainPage
@@ -21,7 +24,15 @@ namespace ProductList.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new ProductList.App());
+            LoadApplication(new ProductList.App(new UwpInitializer()));
+        }
+
+        public class UwpInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IUnityContainer container)
+            {
+
+            }
         }
     }
 }

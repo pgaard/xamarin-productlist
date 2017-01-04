@@ -2,35 +2,31 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Windows.Input;
+
+    using Prism.Commands;
 
     using ProductList.Services;
-    using Microsoft.Practices.Unity;
+
+    using Prism.Mvvm;
+    using Prism.Navigation;
+
     using ProductList.Models;
 
-    using Xamarin.Forms;
-
-    public class CartPageViewModel : BaseViewModel
+    public class CartPageViewModel : BindableBase, INavigationAware
     {
-        private ICartService cartService;
+        private readonly ICartService cartService;
         private Cart cart;
         private int lineCount;
         private bool isLoading;
 
-        public ICommand DeleteCartLineCommand { get; private set; }
-        public ICommand UpdateCartLineCommand { get; private set; }
+        public DelegateCommand<string> DeleteCartLineCommand { get; private set; }
+        public DelegateCommand<string> UpdateCartLineCommand { get; private set; }
 
-        public CartPageViewModel()
+        public CartPageViewModel(ICartService cartService)
         {
-            this.cartService = App.Container.Resolve<ICartService>();            
-            Task.Factory.StartNew(this.LoadCart);
-            this.DeleteCartLineCommand = new Command<string>(async id => await this.DeleteCartLine(id));
-            this.UpdateCartLineCommand = new Command<string>(async id => await this.UpdateCartLine(id));
-        }
-
-        private void DeleteCartLine(object s)
-        {
-            
+            this.cartService = cartService;
+            this.DeleteCartLineCommand = new DelegateCommand<string>(async id => await this.DeleteCartLine(id));
+            this.UpdateCartLineCommand = new DelegateCommand<string>(async id => await this.UpdateCartLine(id));
         }
 
         private async Task DeleteCartLine(string cartLineId)
@@ -50,7 +46,7 @@
             }
         }
 
-        private async Task LoadCart()
+        public async Task LoadCart()
         {
             this.IsLoading = true;
             this.Cart = await this.cartService.GetCart();
@@ -61,19 +57,28 @@
         public Cart Cart
         {
             get { return this.cart; }
-            set { this.SetValue(ref this.cart, value); }
+            set { this.SetProperty(ref this.cart, value); }
         }
 
         public int LineCount
         {
             get { return this.lineCount; }
-            set { this.SetValue(ref this.lineCount, value);}
+            set { this.SetProperty(ref this.lineCount, value);}
         }
 
         public bool IsLoading
         {
             get { return this.isLoading; }
-            set { this.SetValue(ref this.isLoading, value); }
+            set { this.SetProperty(ref this.isLoading, value); }
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public async void OnNavigatedTo(NavigationParameters parameters)
+        {
+            await this.LoadCart();
         }
     }
 }

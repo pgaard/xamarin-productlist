@@ -23,13 +23,12 @@ namespace ProductList
 
         public SignInPage()
         {
-            this.ViewModel = new SignInViewModel();
             InitializeComponent();
         }
 
         private void Login_Clicked(object sender, EventArgs e)
         {
-            this.ViewModel.LoginCommand.Execute(sender);
+            this.ViewModel.LoginCommand.Execute();
             //DisplayAlert("sign in", this.ViewModel.UserName + " " + this.ViewModel.Password, "OK");
         }
     }

@@ -16,7 +16,6 @@
 
         public ProductDetail(Product product)
         {
-            this.ViewModel = new ProductDetailViewModel(product);
             InitializeComponent();
         }
 

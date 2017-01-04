@@ -2,25 +2,20 @@
 namespace ProductList.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
-
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Windows.Input;
 
-    using Microsoft.Practices.Unity;
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using Prism.Navigation;
 
     using ProductList.Models;
     using ProductList.Services;
 
-    using Xamarin.Forms;
-
-    public class ProductSearchViewModel : BaseViewModel
+    public class ProductSearchViewModel : BindableBase, INavigationAware
     {
+        private readonly INavigationService navigationService;
         private readonly IProductService productService;
-        private readonly IPageService pageService;
 
         private ProductCollection productCollection;
         private int currentPage = 1;
@@ -29,17 +24,17 @@ namespace ProductList.ViewModels
 
         private ObservableCollection<Product> products;
 
-        public ICommand DoSearchCommand { get; private set; }
-        public ICommand SelectProductCommand { get; private set; }
-        public ICommand ItemAppearingCommand { get; private set; }
+        public DelegateCommand<string> DoSearchCommand { get; private set; }
+        public DelegateCommand<Product> SelectProductCommand { get; private set; }
+        public DelegateCommand<Product> ItemAppearingCommand { get; private set; }
         
-        public ProductSearchViewModel()
+        public ProductSearchViewModel(INavigationService navigationService, IProductService productService)
         {
-            this.productService = App.Container.Resolve<IProductService>();
-            this.pageService = App.Container.Resolve<IPageService>();
-            this.DoSearchCommand = new Command<string>(async text => await this.DoSearch(text));
-            this.SelectProductCommand = new Command<Product>(async product => await this.SelectProduct(product));
-            this.ItemAppearingCommand = new Command<Product>(async product => await this.ItemAppearing(product));
+            this.navigationService = navigationService;
+            this.productService = productService;
+            this.DoSearchCommand = new DelegateCommand<string>(async text => await this.DoSearch(text));
+            this.SelectProductCommand = new DelegateCommand<Product>(async product => await this.SelectProduct(product));
+            this.ItemAppearingCommand = new DelegateCommand<Product>(async product => await this.ItemAppearing(product));
         }
 
         private Product selectedProduct;
@@ -49,31 +44,31 @@ namespace ProductList.ViewModels
         public ObservableCollection<Product> Products
         {
             get { return this.products;}
-            set { this.SetValue(ref this.products, value);}
+            set { this.SetProperty(ref this.products, value);}
         }
 
         public Product SelectedProduct
         {
             get { return this.selectedProduct; }
-            set { this.SetValue(ref this.selectedProduct, value); }
+            set { this.SetProperty(ref this.selectedProduct, value); }
         }
 
         public bool IsSearching
         {
             get{ return this.isSearching; }
-            set{ this.SetValue(ref this.isSearching, value); }
+            set{ this.SetProperty(ref this.isSearching, value); }
         }
 
         public int HitCount
         {
             get { return this.hitCount; }
-            set { this.SetValue(ref this.hitCount, value); }
+            set { this.SetProperty(ref this.hitCount, value); }
         }
 
         public string Message
         {
             get{ return this.message; }
-            set { this.SetValue(ref this.message, value); }
+            set { this.SetProperty(ref this.message, value); }
         }
 
         public async Task DoSearch(string text)
@@ -120,7 +115,8 @@ namespace ProductList.ViewModels
                 return;
             }
 
-            await this.pageService.PushAsync(new ProductDetail(product));
+            var parameters = new NavigationParameters { { "product", product } };
+            await this.navigationService.NavigateAsync("ProductDetail", parameters);
         }
 
         // this doesn't work right in uwp - keeps retrigging and loading. uwp returns all items as visible.
@@ -135,8 +131,16 @@ namespace ProductList.ViewModels
                 }
             }
         }
-    }
 
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+        }
+    }
+    /*
     public class ScrollBehavior : Behavior<ListView>
     {        
         protected override void OnAttachedTo(ListView listView)
@@ -162,4 +166,5 @@ namespace ProductList.ViewModels
             base.OnDetachingFrom(bindable);
         }   
     }
+    */
 }
