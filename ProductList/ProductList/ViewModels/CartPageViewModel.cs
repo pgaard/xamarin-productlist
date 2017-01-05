@@ -20,9 +20,9 @@
         public ICommand DeleteCartLineCommand { get; private set; }
         public ICommand UpdateCartLineCommand { get; private set; }
 
-        public CartPageViewModel()
+        public CartPageViewModel(ICartService cartService)
         {
-            this.cartService = App.Container.Resolve<ICartService>();            
+            this.cartService = cartService;            
             this.DeleteCartLineCommand = new Command<string>(async id => await this.DeleteCartLine(id));
             this.UpdateCartLineCommand = new Command<string>(async id => await this.UpdateCartLine(id));
         }

@@ -18,9 +18,9 @@
 
         public ICommand LoginCommand { get; private set; }
 
-        public SignInViewModel()
+        public SignInViewModel(IAccountService accountService)
         {
-            this.accountService = App.Container.Resolve<IAccountService>();
+            this.accountService = accountService;
             this.LoginCommand = new Command(async () => await this.DoLogin());            
         }
 

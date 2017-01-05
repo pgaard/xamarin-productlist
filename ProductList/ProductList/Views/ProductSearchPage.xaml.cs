@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.Practices.Unity;
+
     using ProductList.Models;
 
     using Xamarin.Forms;
@@ -15,7 +17,7 @@
     {        
         public ProductSearchPage()
         {
-            this.ViewModel = new ProductSearchViewModel();            
+            this.ViewModel = App.Container.Resolve<ProductSearchViewModel>();            
             this.InitializeComponent();
 
             //var test = ImageSource.FromResource("ProductList.Images.ShoppingCart-48.png");

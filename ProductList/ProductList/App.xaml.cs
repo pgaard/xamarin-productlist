@@ -6,6 +6,7 @@
     using Microsoft.Practices.Unity;
 
     using ProductList.Services;
+    using ProductList.ViewModels;
 
     using Xamarin.Forms;
 
@@ -16,6 +17,7 @@
         
         public string Search { get; set; }
 
+        private readonly IPageService pageService;
         private readonly IAccountService accountService;
 
         private bool TabbedNav = true;
@@ -24,8 +26,10 @@
         {
             try
             {
-                this.SetUpUnity();
+                this.SetUpDependencies();
                 this.InitializeComponent();
+
+                this.pageService = Container.Resolve<IPageService>();
 
                 if (this.TabbedNav)
                 {
@@ -57,15 +61,15 @@
 
         private void ToolbarItem_Account()
         {
-            this.MainPage.Navigation.PushAsync(new SignInPage());
+            this.pageService.PushAsync(new SignInPage());
         }
 
         private void ToolbarItem_Cart()
         {
-            this.MainPage.Navigation.PushAsync(new CartPage());
+            this.pageService.PushAsync(new CartPage());
         }
 
-        protected void SetUpUnity()
+        protected void SetUpDependencies()
         {
             Container = new UnityContainer();
 
@@ -73,7 +77,11 @@
                 .RegisterType<IAccountService, AccountService>()
                 .RegisterType<IPageService, PageService>()
                 .RegisterType<IClientService, ClientService>(new ContainerControlledLifetimeManager())
-                .RegisterType<ICartService, CartService>();
+                .RegisterType<ICartService, CartService>()
+                .RegisterType<CartPageViewModel>()
+                .RegisterType<ProductSearchViewModel>()
+                .RegisterType<SignInViewModel>()
+                .RegisterType<ProductDetailViewModel>();
         }
        
         protected override void OnStart()

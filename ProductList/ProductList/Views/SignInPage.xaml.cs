@@ -10,6 +10,8 @@ namespace ProductList
 {
     using System.Windows.Input;
 
+    using Microsoft.Practices.Unity;
+
     using ProductList.Services;
     using ProductList.ViewModels;
 
@@ -23,8 +25,8 @@ namespace ProductList
 
         public SignInPage()
         {
-            this.ViewModel = new SignInViewModel();
-            InitializeComponent();
+            this.ViewModel = App.Container.Resolve<SignInViewModel>();
+            this.InitializeComponent();
         }
 
         private void Login_Clicked(object sender, EventArgs e)

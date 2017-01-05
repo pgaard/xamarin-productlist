@@ -20,11 +20,10 @@
 
         public ICommand AddToCartCommand { get; private set; }
 
-        public ProductDetailViewModel(Product product)
+        public ProductDetailViewModel(ICartService cartService, IPageService pageService)
         {
-            this.product = product;
-            this.cartService = App.Container.Resolve<ICartService>();
-            this.pageService = App.Container.Resolve<IPageService>();
+            this.cartService = cartService;
+            this.pageService = pageService;
             this.AddToCartCommand = new Command<Product>(async p => await this.AddToCart(p));
         }
 

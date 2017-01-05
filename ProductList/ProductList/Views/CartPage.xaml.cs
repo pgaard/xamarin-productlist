@@ -4,6 +4,8 @@ namespace ProductList
 {
     using System;
 
+    using Microsoft.Practices.Unity;
+
     using ProductList.Models;
     using ProductList.ViewModels;
 
@@ -12,7 +14,7 @@ namespace ProductList
         public CartPage()
         {                        
             InitializeComponent();
-            this.ViewModel = new CartPageViewModel();
+            this.ViewModel = App.Container.Resolve<CartPageViewModel>();
         }
         protected override async void OnAppearing()
         {

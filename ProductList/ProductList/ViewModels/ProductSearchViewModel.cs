@@ -33,10 +33,10 @@ namespace ProductList.ViewModels
         public ICommand SelectProductCommand { get; private set; }
         public ICommand ItemAppearingCommand { get; private set; }
         
-        public ProductSearchViewModel()
+        public ProductSearchViewModel(IProductService productService, IPageService pageService)
         {
-            this.productService = App.Container.Resolve<IProductService>();
-            this.pageService = App.Container.Resolve<IPageService>();
+            this.productService = productService;
+            this.pageService = pageService;
             this.DoSearchCommand = new Command<string>(async text => await this.DoSearch(text));
             this.SelectProductCommand = new Command<Product>(async product => await this.SelectProduct(product));
             this.ItemAppearingCommand = new Command<Product>(async product => await this.ItemAppearing(product));

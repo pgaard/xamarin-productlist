@@ -20,9 +20,9 @@
     {
         private IClientService client;
 
-        public CartService()
+        public CartService(IClientService clientService)
         {
-            this.client = App.Container.Resolve<IClientService>();
+            this.client = clientService;
         }
 
         public async Task<bool> AddToCart(Product product)

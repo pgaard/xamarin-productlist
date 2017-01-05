@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Microsoft.Practices.Unity;
+
     using Xamarin.Forms;
     using ProductList.Models;
     using ProductList.ViewModels;
@@ -16,7 +18,8 @@
 
         public ProductDetail(Product product)
         {
-            this.ViewModel = new ProductDetailViewModel(product);
+            this.ViewModel = App.Container.Resolve<ProductDetailViewModel>();
+            this.ViewModel.Product = product;
             InitializeComponent();
         }
 

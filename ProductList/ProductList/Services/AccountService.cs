@@ -21,9 +21,9 @@ namespace ProductList.Services
         private readonly IClientService client;          
         private Session session;
 
-        public AccountService()
+        public AccountService(IClientService clientService)
         {
-            this.client = App.Container.Resolve<IClientService>();
+            this.client = clientService;
         }
 
         public async Task<bool> Authenticate(string userName, string password)
