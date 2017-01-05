@@ -23,7 +23,6 @@
         public CartPageViewModel()
         {
             this.cartService = App.Container.Resolve<ICartService>();            
-            Task.Factory.StartNew(this.LoadCart);
             this.DeleteCartLineCommand = new Command<string>(async id => await this.DeleteCartLine(id));
             this.UpdateCartLineCommand = new Command<string>(async id => await this.UpdateCartLine(id));
         }
@@ -50,7 +49,7 @@
             }
         }
 
-        private async Task LoadCart()
+        public async Task LoadCart()
         {
             this.IsLoading = true;
             this.Cart = await this.cartService.GetCart();

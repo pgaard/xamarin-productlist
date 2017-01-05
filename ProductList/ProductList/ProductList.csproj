@@ -38,16 +38,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CartPage.xaml.cs">
+    <Compile Include="Views\CartPage.xaml.cs">
       <DependentUpon>CartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ClickableImage.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Session.cs" />
-    <Compile Include="ProductDetail.xaml.cs">
+    <Compile Include="Views\ProductDetail.xaml.cs">
       <DependentUpon>ProductDetail.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProductSearchPage.xaml.cs">
+    <Compile Include="Views\ProductSearchPage.xaml.cs">
       <DependentUpon>ProductSearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Availability.cs" />
@@ -66,10 +66,10 @@
     <Compile Include="Services\PageService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignInPage.xaml.cs">
+    <Compile Include="Views\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TabbedHomePage.xaml.cs">
+    <Compile Include="Views\TabbedHomePage.xaml.cs">
       <DependentUpon>TabbedHomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\NegativeBooleanConverter.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="ViewModels\SignInViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ProductSearchPage.xaml">
+    <EmbeddedResource Include="Views\ProductSearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -139,7 +139,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ProductDetail.xaml">
+    <EmbeddedResource Include="Views\ProductDetail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -151,19 +151,19 @@
     <EmbeddedResource Include="Images\ShoppingCart-48.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CartPage.xaml">
+    <EmbeddedResource Include="Views\CartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SignInPage.xaml">
+    <EmbeddedResource Include="Views\SignInPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TabbedHomePage.xaml">
+    <EmbeddedResource Include="Views\TabbedHomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

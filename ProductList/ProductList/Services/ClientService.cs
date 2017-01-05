@@ -89,7 +89,7 @@
         }
 
         public async Task<HttpResponseMessage> GetAsync(string path)
-        {            
+        {                        
             return await this.client.GetAsync(this.MakeUrl(path));
         }
 
