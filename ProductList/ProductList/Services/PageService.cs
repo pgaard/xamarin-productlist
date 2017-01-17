@@ -2,7 +2,11 @@
 
 namespace ProductList.Services
 {
+    using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.Practices.Unity;
+
     using Xamarin.Forms;
 
     public class PageService : IPageService
@@ -19,6 +23,21 @@ namespace ProductList.Services
 
         public async Task PushAsync(Page page)
         {
+            await Application.Current.MainPage.Navigation.PushAsync(page);
+        }
+
+        public async Task PushAsync(string pageName, ParameterOverride[] parameters = null)
+        {
+            Page page;
+            if (parameters != null)
+            {
+                var resolverOverride = parameters.Select(p => p as ResolverOverride).ToArray();
+                page = App.Container.Resolve<Page>(pageName, resolverOverride);
+            }
+            else
+            {
+                page = App.Container.Resolve<Page>(pageName);
+            }
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
     }

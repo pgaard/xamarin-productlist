@@ -18,8 +18,7 @@
         public ProductSearchPage()
         {
             this.ViewModel = App.Container.Resolve<ProductSearchViewModel>();            
-            this.InitializeComponent();
-
+            this.InitializeComponent();            
             //var test = ImageSource.FromResource("ProductList.Images.ShoppingCart-48.png");
             //var test =ImageSource.FromFile("shopping.png");
             //this.cartToolBar.Icon = (FileImageSource)ImageSource.FromFile("shopping.png");            

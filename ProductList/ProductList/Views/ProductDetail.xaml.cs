@@ -20,7 +20,7 @@
         {
             this.ViewModel = App.Container.Resolve<ProductDetailViewModel>();
             this.ViewModel.Product = product;
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void Handle_AddToCart(object sender, EventArgs e)

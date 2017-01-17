@@ -113,14 +113,14 @@ namespace ProductList.ViewModels
             this.IsSearching = false;
         }
 
-        private async Task SelectProduct(Product product)
+        public async Task SelectProduct(Product product)
         {
             if (product == null)
             {
                 return;
             }
 
-            await this.pageService.PushAsync(new ProductDetail(product));
+            await this.pageService.PushAsync("ProductDetail", new [] { new ParameterOverride("product", product) });
         }
 
         // this doesn't work right in uwp - keeps retrigging and loading. uwp returns all items as visible.

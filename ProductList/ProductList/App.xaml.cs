@@ -81,7 +81,11 @@
                 .RegisterType<CartPageViewModel>()
                 .RegisterType<ProductSearchViewModel>()
                 .RegisterType<SignInViewModel>()
-                .RegisterType<ProductDetailViewModel>();
+                .RegisterType<ProductDetailViewModel>()
+                .RegisterType<Page, ProductDetail>("ProductDetail")
+                .RegisterType<Page, ProductSearchPage>("ProductSearchPage")
+                .RegisterType<Page, CartPage>("CartPage")
+                .RegisterType<Page, SignInPage>("SignInPage");
         }
        
         protected override void OnStart()

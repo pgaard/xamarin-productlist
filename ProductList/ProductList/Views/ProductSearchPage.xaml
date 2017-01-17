@@ -13,15 +13,15 @@
     <ListView x:Name="ListView"
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-        ItemSelected="ListView_OnItemSelected" 
+        ItemSelected="ListView_OnItemSelected"
         ItemAppearing="ListView_ItemAppearing"
-              >
+        CachingStrategy="RecycleElement">
       <!--
       <ListView.Behaviors>
         <viewModels:ScrollBehavior />
       </ListView.Behaviors>
       -->
-      <ListView.ItemTemplate>
+        <ListView.ItemTemplate>
         <DataTemplate>
           <ImageCell TextColor="Black"
             ImageSource="{Binding ProductSmallImageSource}"
