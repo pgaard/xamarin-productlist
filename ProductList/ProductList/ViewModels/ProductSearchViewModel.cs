@@ -76,7 +76,7 @@ namespace ProductList.ViewModels
             set { this.SetValue(ref this.message, value); }
         }
 
-        public async Task DoSearch(string text)
+        private async Task DoSearch(string text)
         {
             this.currentPage = 1;
             await this.LoadProducts(this.currentPage, text);
