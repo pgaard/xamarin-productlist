@@ -13,7 +13,7 @@
     <ListView x:Name="ListView"
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-        ItemSelected="ListView_OnItemSelected"
+        ItemTapped="ListView_OnItemTapped"
         ItemAppearing="ListView_ItemAppearing"
         CachingStrategy="RecycleElement">
       <!--

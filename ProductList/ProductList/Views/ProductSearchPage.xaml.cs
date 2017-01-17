@@ -49,9 +49,10 @@
             }
         }
 
-        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            this.ViewModel.SelectProductCommand.Execute(e.SelectedItem);
+            ((ListView)sender).SelectedItem = null;
+            this.ViewModel.SelectProductCommand.Execute(e.Item);
         }
 
         private void ListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
@@ -63,6 +64,6 @@
         {
             get { return BindingContext as ProductSearchViewModel; }
             set { BindingContext = value; }
-        }
+        }       
     }
 }

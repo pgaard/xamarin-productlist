@@ -25,7 +25,7 @@
         {
             try
             {
-                var content = await this.client.GetAsync($"api/v1/products/?pageSize=32&page={page}&query={term}");
+                var content = await this.client.GetAsync($"api/v1/products/?pageSize=32&page={page}&query={term}&expand=htmlcontent");
 
                 var productCollection = new ProductCollection();
                 if (content.StatusCode != HttpStatusCode.NotFound)

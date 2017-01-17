@@ -3,20 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:ProductList.ViewModels;assembly=ProductList"
              x:Class="ProductList.ProductDetail">
-  <StackLayout Padding="20,20,20,20" Spacing="5">
-    <Image Source="{Binding Product.ProductLargeImageSource}" 
-            HorizontalOptions="Center"  
-            Aspect="AspectFill"
-			      RelativeLayout.WidthConstraint="{ConstraintExpression
+  <ScrollView>
+    <StackLayout Padding="20,20,20,20" Spacing="5">
+      <Image Source="{Binding Product.ProductLargeImageSource}"
+              HorizontalOptions="Center"
+              Aspect="AspectFill"
+              RelativeLayout.WidthConstraint="{ConstraintExpression
 				      Type=RelativeToParent,
 				      Property=Width,
-				      Factor=1}">      
-    </Image>
-    <Label Text="{Binding Product.shortDescription}" HorizontalOptions="Center" />
-    <Label Text="{Binding Product.erpNumber}" HorizontalOptions="Center" />
-    <Label Text="{Binding Product.manufacturerItem}" HorizontalOptions="Center" />
-    <Label Text="{Binding Product.pricing.actualPriceDisplay}" HorizontalOptions="Center" />    
-    <Button Text="Add To Cart" Clicked="Handle_AddToCart" />
-    <Label Text="{Binding Message}"></Label>
-  </StackLayout>
+				      Factor=1}">
+      </Image>
+      <Label Text="{Binding Product.shortDescription}" HorizontalOptions="Center" />
+      <Label Text="{Binding Product.erpNumber}" HorizontalOptions="Center" />
+      <Label Text="{Binding Product.manufacturerItem}" HorizontalOptions="Center" />
+      <Label Text="{Binding Product.pricing.actualPriceDisplay}" HorizontalOptions="Center" />
+      <Button Text="Add To Cart" Clicked="Handle_AddToCart" />
+      <Label Text="{Binding Message}"></Label>
+      <StackLayout HeightRequest="200">
+        <WebView VerticalOptions="FillAndExpand">
+          <WebView.Source>
+            <HtmlWebViewSource Html="{Binding Product.htmlContent}"/>
+          </WebView.Source>
+        </WebView>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
 </ContentPage>
