@@ -18,7 +18,7 @@ namespace ProductList
             NavigationPage.SetHasNavigationBar(this, false);
             this.Title = "Insite";
             this.Children.Add(new SignInPage());
-            this.Children.Add(new ProductSearchPage());
+            this.Children.Add(new ProductSearchPage() {AutomationId = "tst_search_tab"}); // AutomationId doesn't work
             this.Children.Add(new CartPage { Icon = "shopping.png", Title = "" });
         }
     }

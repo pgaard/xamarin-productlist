@@ -5,17 +5,19 @@
              xmlns:viewModels="clr-namespace:ProductList.ViewModels;assembly=ProductList"
              x:Class="ProductList.ProductSearchPage"
              Title="Search">
-  <StackLayout Padding="10">    
-    <SearchBar x:Name="SearchText" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40"></SearchBar>    
+  <StackLayout Padding="10">
+    <Label Text="version 1"></Label>
+    <SearchBar x:Name="SearchText" Placeholder="Search..." SearchButtonPressed="Handle_Search" HeightRequest="40" AutomationId="tst_search_bar"></SearchBar>    
     <ActivityIndicator IsRunning="{Binding IsSearching}" IsVisible="{Binding IsSearching}" Color="Black"/>
-    <Label Text="{Binding HitCount, StringFormat='{0} Products'}" IsVisible="{Binding HitCount}"/>
+    <Label AutomationId="tst_image_hitcount" Text="{Binding HitCount, StringFormat='{0} Products'}" IsVisible="{Binding HitCount}"/>
     <Label Text="{Binding Message}" IsVisible="{Binding Message, Converter={x:StaticResource NotEmptyStringConverter}}"/>
     <ListView x:Name="ListView"
+        AutomationId="tst_listview"
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
         ItemTapped="ListView_OnItemTapped"
-        ItemAppearing="ListView_ItemAppearing"
-        CachingStrategy="RecycleElement">
+        ItemAppearing="ListView_ItemAppearing">
+      <!--CachingStrategy="RecycleElement"-->
       <!--
       <ListView.Behaviors>
         <viewModels:ScrollBehavior />
@@ -24,6 +26,7 @@
         <ListView.ItemTemplate>
         <DataTemplate>
           <ImageCell TextColor="Black"
+            AutomationId="tst_image_cell"
             ImageSource="{Binding ProductSmallImageSource}"
             Text="{Binding shortDescription}"
             Detail="{Binding pricing.actualPriceDisplay}"></ImageCell>;
